@@ -16,24 +16,55 @@ class VeterinarioSerializer(serializers.ModelSerializer):
 
 
 class VeterinarioCreateSerializer(serializers.Serializer):
-    username = serializers.CharField(max_length=150)
-    first_name = serializers.CharField(max_length=150)
-    last_name = serializers.CharField(max_length=150)
-    email = serializers.EmailField()
+    username = serializers.CharField(max_length=150, required=False)
+    first_name = serializers.CharField(max_length=150, required=False)
+    last_name = serializers.CharField(max_length=150, required=False)
+    email = serializers.EmailField(required=False)
+    password = serializers.CharField(max_length=128, required=False)
+
+    user_id = serializers.IntegerField(requied=False)
     celular = serializers.CharField(max_length=20)
-    password = serializers.CharField(max_length=128)
+
+    def validate(self, data):
+        user_id = data.get("user_id")
+        has_user_data = all(
+            key in data
+            for key in ["username", "first_name", "last_name", "email", "password"]
+        )
+
+        if user_id and has_user_data:
+            raise serializers.ValidationError(
+                "Forneça apenas o ID do usuário ou novos dados, não ambos."
+            )
+
+        if not user_id and not has_user_data:
+            raise serializers.ValidationError(
+                "Forneça o ID do usuário ou dados completos para criar um novo usuário."
+            )
+
+        if user_id:
+            try:
+                user = User.objects.get(id=user_id)
+                if user.groups.filter(name="veterinarios"):
+                    raise serializers.ValidationError(
+                        {"user_id": "Este usuário já é um veterinário"}
+                    )
+
+            except User.DoesNotExist:
+                raise serializers.ValidationError({"user_id": "Usuário não encontrado"})
+
+        return data
 
     def create(self, validated_data):
         celular = validated_data.pop("celular")
+        user_id = validated_data.pop("user_id", None)
 
-        try:
-            user = User.objects.create_user(**validated_data)
-            veterinario_group, created = Group.objects.get_or_create(name="veterinario")
-            user.groups.add(veterinario_group)
+        if user_id:
+            user = User.objects.get(id=user_id)
+        else:
+            user = User.objects.create(**validated_data)
 
-            veterinario = models.Veterinario.objects.create(user=user, celular=celular)
-            return veterinario
-        except IntegrityError:
-            raise serializers.ValidationError(
-                {"error": "Usuário com este username ou email já existe"}
-            )
+        veterinarios_group, created = Group.objects.get_or_create(name="veterinarios")
+        user.groups.add(veterinarios_group)
+        veterinario = models.Veterinario.objects.create(user=user, celular=celular)
+        return veterinario
