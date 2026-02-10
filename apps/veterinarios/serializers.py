@@ -22,7 +22,7 @@ class VeterinarioCreateSerializer(serializers.Serializer):
     email = serializers.EmailField(required=False)
     password = serializers.CharField(max_length=128, required=False)
 
-    user_id = serializers.IntegerField(requied=False)
+    user_id = serializers.IntegerField(required=False)
     celular = serializers.CharField(max_length=20)
 
     def validate(self, data):
@@ -45,7 +45,7 @@ class VeterinarioCreateSerializer(serializers.Serializer):
         if user_id:
             try:
                 user = User.objects.get(id=user_id)
-                if user.groups.filter(name="veterinarios"):
+                if user.groups.filter(name="veterinarios").exists():
                     raise serializers.ValidationError(
                         {"user_id": "Este usuário já é um veterinário"}
                     )
