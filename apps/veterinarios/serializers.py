@@ -3,6 +3,7 @@ from django.db.utils import IntegrityError
 from rest_framework import serializers
 
 from apps.accounts.serializers import UserSerializer
+from apps.utils import validate_user_with_id
 
 from . import models
 
@@ -26,21 +27,8 @@ class VeterinarioCreateSerializer(serializers.Serializer):
     celular = serializers.CharField(max_length=20)
 
     def validate(self, data):
+        validate_user_with_id(data)
         user_id = data.get("user_id")
-        has_user_data = all(
-            key in data
-            for key in ["username", "first_name", "last_name", "email", "password"]
-        )
-
-        if user_id and has_user_data:
-            raise serializers.ValidationError(
-                "Forneça apenas o ID do usuário ou novos dados, não ambos."
-            )
-
-        if not user_id and not has_user_data:
-            raise serializers.ValidationError(
-                "Forneça o ID do usuário ou dados completos para criar um novo usuário."
-            )
 
         if user_id:
             try:
