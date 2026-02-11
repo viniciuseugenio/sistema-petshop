@@ -1,3 +1,4 @@
+from django.db.models.base import ModelStateFieldsCacheDescriptor
 from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
 
@@ -12,6 +13,12 @@ class PetListSerializer(ModelSerializer):
     class Meta:
         model = Pet
         fields = ["id", "nome", "tutor", "especie", "raca", "data_nascimento"]
+
+
+class PetBasicSerializer(ModelSerializer):
+    class Meta:
+        model = Pet
+        fields = ["id", "nome", "especie", "raca", "data_nascimento"]
 
 
 class PetDetailsSerializer(ModelSerializer):
