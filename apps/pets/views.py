@@ -1,10 +1,18 @@
 from rest_framework.viewsets import ModelViewSet
 
+from apps.permissions import IsVeterinario, IsVeterinarioOrTutor
+
 from . import serializers
 from .models import Pet
 
 
 class PetViewSet(ModelViewSet):
+    def get_permissions(self):
+        if self.action == "list":
+            return [IsVeterinario()]
+
+        return [IsVeterinarioOrTutor()]
+
     def get_queryset(self):
         queryset = Pet.objects.select_related("tutor", "tutor__user")
         tutor_id = self.request.query_params.get("tutor")
