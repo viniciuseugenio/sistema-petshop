@@ -6,7 +6,7 @@ from . import models, serializers
 
 # Create your views here.
 class VeterinarioViewSet(ModelViewSet):
-    queryset = models.Veterinario.objects.all()
+    queryset = models.Veterinario.objects.select_related("user")
 
     def get_serializer_class(self):
         if self.action == "create":

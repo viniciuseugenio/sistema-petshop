@@ -7,7 +7,7 @@ from . import serializers
 
 # Create your views here.
 class TutorViewSet(ModelViewSet):
-    queryset = Tutor.objects.all()
+    queryset = Tutor.objects.select_related("user")
 
     def get_serializer_class(self):
         if self.action == "create":
