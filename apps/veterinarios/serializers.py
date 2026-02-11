@@ -2,7 +2,7 @@ from django.contrib.auth.models import Group, User
 from django.db.utils import IntegrityError
 from rest_framework import serializers
 
-from apps.accounts.serializers import UserSerializer
+from apps.accounts.serializers import UserBasicSerializer, UserSerializer
 from apps.utils import validate_user_with_id
 
 from . import models
@@ -10,6 +10,14 @@ from . import models
 
 class VeterinarioSerializer(serializers.ModelSerializer):
     user = UserSerializer()
+
+    class Meta:
+        model = models.Veterinario
+        fields = ["id", "user", "celular"]
+
+
+class VeterinarioBasicSerializer(serializers.ModelSerializer):
+    user = UserBasicSerializer()
 
     class Meta:
         model = models.Veterinario
