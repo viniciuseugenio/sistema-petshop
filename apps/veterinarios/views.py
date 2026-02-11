@@ -1,12 +1,15 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework import status
 from rest_framework.response import Response
+
+from apps.permissions import IsVeterinario
 from . import models, serializers
 
 
 # Create your views here.
 class VeterinarioViewSet(ModelViewSet):
     queryset = models.Veterinario.objects.select_related("user")
+    permission_classes = [IsVeterinario]
 
     def get_serializer_class(self):
         if self.action == "create":
