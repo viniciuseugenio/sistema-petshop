@@ -1,12 +1,20 @@
 from rest_framework import serializers
 from django.contrib.auth.models import Group, User
 
-from apps.accounts.serializers import UserBasicSerializer
+from apps.accounts.serializers import UserBasicSerializer, UserSerializer
 from apps.tutores import models
 from apps.utils import validate_user_with_id
 
 
 class TutorSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+
+    class Meta:
+        model = models.Tutor
+        fields = ["user", "celular"]
+
+
+class TutorBasicSerializer(serializers.ModelSerializer):
     user = UserBasicSerializer()
 
     class Meta:

@@ -1,12 +1,12 @@
 from rest_framework import serializers
 
 from apps.tutores.models import Tutor
-from apps.tutores.serializers import TutorSerializer
+from apps.tutores.serializers import TutorBasicSerializer
 from .models import Pet
 
 
 class PetSerializer(serializers.ModelSerializer):
-    tutor = TutorSerializer()
+    tutor = TutorBasicSerializer()
 
     class Meta:
         model = Pet
