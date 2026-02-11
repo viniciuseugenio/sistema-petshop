@@ -17,7 +17,7 @@ class RegistroVacina(models.Model):
         on_delete=models.PROTECT,
         null=True,
         blank=False,
-        related_name="vacinas",
+        related_name="registros_vacina",
     )
     vacina = models.ForeignKey(Vacina, on_delete=models.PROTECT, null=True, blank=False)
     pet = models.ForeignKey(Pet, on_delete=models.CASCADE, related_name="vacinas")
