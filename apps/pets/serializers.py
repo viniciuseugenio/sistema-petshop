@@ -18,6 +18,12 @@ class PetListSerializer(ModelSerializer):
 class PetBasicSerializer(ModelSerializer):
     class Meta:
         model = Pet
+        fields = ["id", "nome"]
+
+
+class PetSemTutorSerializer(ModelSerializer):
+    class Meta:
+        model = Pet
         fields = ["id", "nome", "especie", "raca", "data_nascimento"]
 
 
