@@ -1,8 +1,15 @@
+from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
 from django.contrib.auth.models import User
 
 
-class UserSerializer(serializers.ModelSerializer):
+class UserSerializer(ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["id", "username", "first_name", "last_name", "email"]
+
+
+class UserWGroupsSerializer(ModelSerializer):
     groups = serializers.SerializerMethodField()
 
     class Meta:
@@ -13,7 +20,7 @@ class UserSerializer(serializers.ModelSerializer):
         return [group.name for group in obj.groups.all()]
 
 
-class UserBasicSerializer(serializers.ModelSerializer):
+class UserBasicSerializer(ModelSerializer):
     class Meta:
         model = User
         fields = ["id", "username"]
