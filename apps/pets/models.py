@@ -8,6 +8,11 @@ class Pet(models.Model):
     especie = models.CharField(max_length=50)
     raca = models.CharField(max_length=100, null=True, blank=True)
     data_nascimento = models.DateField(null=True, blank=True)
+    sexo = models.CharField(
+        max_length=1,
+        choices=(("M", "Macho"), ("F", "Fêmea"), ("N", "Não Informado")),
+        default="N",
+    )
 
     def __str__(self):
         return f"{self.nome} de {self.tutor}"
