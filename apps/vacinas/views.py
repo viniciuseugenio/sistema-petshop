@@ -1,7 +1,11 @@
 from rest_framework.viewsets import ModelViewSet
 
 from .models import RegistroVacina, Vacina
-from .serializers import RegistroVacinaSerializer, VacinaSerializer
+from .serializers import (
+    RegistroVacinaDetailsSerializer,
+    RegistroVacinaListSerializer,
+    VacinaSerializer,
+)
 
 
 class VacinaViewSet(ModelViewSet):
@@ -10,8 +14,6 @@ class VacinaViewSet(ModelViewSet):
 
 
 class RegistroVacinaViewSet(ModelViewSet):
-    serializer_class = RegistroVacinaSerializer
-
     def get_queryset(self):
         queryset = RegistroVacina.objects.select_related(
             "veterinario__user", "vacina", "pet__tutor__user"
@@ -27,3 +29,9 @@ class RegistroVacinaViewSet(ModelViewSet):
             queryset = queryset.filter(veterinario__id=veterinario_id)
 
         return queryset
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return RegistroVacinaListSerializer
+
+        return RegistroVacinaDetailsSerializer
