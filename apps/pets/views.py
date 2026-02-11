@@ -10,4 +10,7 @@ class PetViewSet(ModelViewSet):
         if self.action == "create":
             return serializers.PetCreateSerializer
 
-        return serializers.PetSerializer
+        if self.action == "retrieve":
+            return serializers.PetDetailsSerializer
+
+        return serializers.PetListSerializer
