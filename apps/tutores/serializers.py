@@ -11,7 +11,7 @@ class TutorSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Tutor
-        fields = ["user", "celular"]
+        fields = ["id", "user", "celular"]
 
 
 class TutorBasicSerializer(serializers.ModelSerializer):
@@ -19,7 +19,7 @@ class TutorBasicSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Tutor
-        fields = ["user", "celular"]
+        fields = ["id", "user", "celular"]
 
 
 class TutorCreateSerializer(serializers.Serializer):
