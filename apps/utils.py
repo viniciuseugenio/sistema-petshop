@@ -24,3 +24,27 @@ def validate_user_with_id(data):
 def get_max_age(key):
     lifetime: timedelta = settings.SIMPLE_JWT[key]
     return int(lifetime.total_seconds())
+
+
+def set_access_token(response, token):
+    access_max_age = get_max_age("ACCESS_TOKEN_LIFETIME")
+
+    response.set_cookie(
+        key="access_token",
+        value=token,
+        max_age=access_max_age,
+        secure=True,
+        httponly=True,
+    )
+
+
+def set_refresh_token(response, token):
+    refresh_max_age = get_max_age("REFRESH_TOKEN_LIFETIME")
+
+    response.set_cookie(
+        key="refresh_token",
+        value=token,
+        max_age=refresh_max_age,
+        secure=True,
+        httponly=True,
+    )

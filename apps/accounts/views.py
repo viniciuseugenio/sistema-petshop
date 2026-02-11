@@ -4,7 +4,7 @@ from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from apps.utils import get_max_age
+from apps.utils import get_max_age, set_access_token, set_refresh_token
 
 from .serializers import UserWGroupsSerializer
 
@@ -27,9 +27,6 @@ class CustomTokenObtainPairView(generics.GenericAPIView):
                 status=status.HTTP_401_UNAUTHORIZED,
             )
 
-        access_max_age = get_max_age("ACCESS_TOKEN_LIFETIME")
-        refresh_max_age = get_max_age("REFRESH_TOKEN_LIFETIME")
-
         refresh = RefreshToken.for_user(user)
         response = Response(
             {
@@ -39,19 +36,8 @@ class CustomTokenObtainPairView(generics.GenericAPIView):
             status=status.HTTP_200_OK,
         )
 
-        response.set_cookie(
-            key="access_token",
-            value=str(refresh.access_token),
-            max_age=access_max_age,
-            secure=True,
-            httponly=True,
-        )
-        response.set_cookie(
-            key="refresh_token",
-            value=str(refresh),
-            max_age=refresh_max_age,
-            secure=True,
-            httponly=True,
-        )
+        set_access_token(response, str(refresh.access_token))
+        set_refresh_token(response, str(refresh))
 
         return response
+
