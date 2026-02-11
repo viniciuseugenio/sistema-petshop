@@ -14,14 +14,12 @@ class Vacina(models.Model):
 class RegistroVacina(models.Model):
     veterinario = models.ForeignKey(
         Veterinario,
-        on_delete=models.SET_NULL,
+        on_delete=models.PROTECT,
         null=True,
         blank=False,
         related_name="vacinas",
     )
-    vacina = models.ForeignKey(
-        Vacina, on_delete=models.SET_NULL, null=True, blank=False
-    )
+    vacina = models.ForeignKey(Vacina, on_delete=models.PROTECT, null=True, blank=False)
     pet = models.ForeignKey(Pet, on_delete=models.CASCADE, related_name="vacinas")
     observacoes = models.TextField(blank=True)
     data = models.DateField(default=date.today)
