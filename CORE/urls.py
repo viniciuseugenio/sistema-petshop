@@ -18,10 +18,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from debug_toolbar.toolbar import debug_toolbar_urls
-from apps.accounts.views import CustomTokenObtainPairView
+from apps.accounts.views import CustomTokenObtainPairView, CustomTokenRefreshView
 from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
     TokenVerifyView,
 )
 
@@ -35,6 +33,8 @@ urlpatterns = [
     path(
         "api/v1/token/", CustomTokenObtainPairView.as_view(), name="token_obtain_pair"
     ),
-    path("api/v1/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    path(
+        "api/v1/token/refresh/", CustomTokenRefreshView.as_view(), name="token_refresh"
+    ),
     path("api/v1/token/verify/", TokenVerifyView.as_view(), name="token_verify"),
 ] + debug_toolbar_urls()
