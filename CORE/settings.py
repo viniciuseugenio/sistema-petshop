@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "apps.veterinarios",
     "apps.tutores",
     "apps.accounts",
+    "apps.pets",
 ]
 
 MIDDLEWARE = [
