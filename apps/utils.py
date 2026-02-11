@@ -1,4 +1,6 @@
 from rest_framework import serializers
+from django.conf import settings
+from datetime import timedelta
 
 
 def validate_user_with_id(data):
@@ -17,3 +19,8 @@ def validate_user_with_id(data):
         raise serializers.ValidationError(
             "Forneça o ID do usuário ou dados completos para criar um novo usuário."
         )
+
+
+def get_max_age(key):
+    lifetime: timedelta = settings.SIMPLE_JWT[key]
+    return int(lifetime.total_seconds())
