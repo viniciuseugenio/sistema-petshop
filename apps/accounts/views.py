@@ -2,6 +2,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from rest_framework import generics, status
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework_simplejwt.tokens import RefreshToken
 
@@ -79,3 +80,10 @@ class CustomTokenRefreshView(generics.GenericAPIView):
                 status=status.HTTP_401_UNAUTHORIZED,
             )
 
+
+class LogoutView(APIView):
+    def post(self, request):
+        response = Response({"detail": "Você foi deslogado com sucesso"})
+        response.delete_cookie("access_token")
+        response.delete_cookie("refresh_token")
+        return response
