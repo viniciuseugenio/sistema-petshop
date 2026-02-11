@@ -13,7 +13,9 @@ class RegistroVacinaViewSet(ModelViewSet):
     serializer_class = RegistroVacinaSerializer
 
     def get_queryset(self):
-        queryset = RegistroVacina.objects.all()
+        queryset = RegistroVacina.objects.select_related(
+            "veterinario__user", "vacina", "pet__tutor__user"
+        )
 
         pet_id = self.request.query_params.get("pet")
         veterinario_id = self.request.query_params.get("veterinario")
