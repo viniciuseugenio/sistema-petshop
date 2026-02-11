@@ -1,15 +1,12 @@
-from datetime import timedelta
 from django.contrib.auth import authenticate
-from django.conf import settings
-from rest_framework import status
 from django.contrib.auth.models import User
-from rest_framework import generics
+from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from apps.utils import get_max_age
 
-from .serializers import UserSerializer, UserWGroupsSerializer
+from .serializers import UserWGroupsSerializer
 
 
 # Create your views here.
@@ -37,7 +34,7 @@ class CustomTokenObtainPairView(generics.GenericAPIView):
         response = Response(
             {
                 "detail": "Você está autenticado com sucesso.",
-                "user": UserSerializer(user).data,
+                "user": UserWGroupsSerializer(user).data,
             },
             status=status.HTTP_200_OK,
         )
