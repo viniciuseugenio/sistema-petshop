@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # Apps customizados
     "apps.veterinarios",
+    "apps.tutores",
     "apps.accounts",
 ]
 
