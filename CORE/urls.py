@@ -21,9 +21,9 @@ from debug_toolbar.toolbar import debug_toolbar_urls
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("veterinarios/", include("apps.veterinarios.urls")),
-    path("tutores/", include("apps.tutores.urls")),
-    path("accounts/", include("apps.accounts.urls")),
-    path("pets/", include("apps.pets.urls")),
-    path("vacinas/", include("apps.vacinas.urls")),
+    path("api/v1/veterinarios/", include("apps.veterinarios.urls")),
+    path("api/v1/tutores/", include("apps.tutores.urls")),
+    path("api/v1/accounts/", include("apps.accounts.urls")),
+    path("api/v1/pets/", include("apps.pets.urls")),
+    path("api/v1/vacinas/", include("apps.vacinas.urls")),
 ] + debug_toolbar_urls()
