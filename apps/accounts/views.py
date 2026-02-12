@@ -83,6 +83,26 @@ class CustomTokenObtainPairView(generics.GenericAPIView):
 
 
 class CustomTokenRefreshView(generics.GenericAPIView):
+    @extend_schema(
+        tags=["accounts"],
+        summary="Atualizar tokens JWT",
+        description="Recebe o refresh_token por meio dos cookies HTTPOnly e atualiza ambos os tokens.",
+        request=None,
+        responses={
+            200: OpenApiResponse(
+                response=UserWGroupsSerializer,
+                description="Tokens atualizados com sucesso. Novos tokens enviados via cookies HTTPOnly.",
+            ),
+            401: OpenApiResponse(
+                response=inline_serializer(
+                    name="TokenRefreshError",
+                    fields={
+                        "detail": serializers.CharField(),
+                    },
+                ),
+            ),
+        },
+    )
     def post(self, request, *args, **kwargs):
         refresh_token = request.COOKIES.get("refresh_token")
 
