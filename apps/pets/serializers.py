@@ -8,7 +8,7 @@ from .models import Pet
 
 
 class PetListSerializer(ModelSerializer):
-    tutor = TutorBasicSerializer()
+    tutor = TutorBasicSerializer(read_only=True)
 
     class Meta:
         model = Pet
@@ -28,7 +28,7 @@ class PetSemTutorSerializer(ModelSerializer):
 
 
 class PetDetailsSerializer(ModelSerializer):
-    tutor = TutorSerializer()
+    tutor = TutorSerializer(read_only=True)
 
     class Meta:
         model = Pet
