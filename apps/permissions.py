@@ -1,16 +1,17 @@
 from rest_framework import permissions
 
 from apps.tutores.models import Tutor
+from apps.utils import verify_group
 
 
 class IsVeterinario(permissions.BasePermission):
     def has_permission(self, request, view):
-        return request.user.groups.filter(name="veterinarios").exists()
+        return verify_group(request.user, "veterinarios")
 
 
 class IsVeterinarioOrTutor(permissions.BasePermission):
     def has_permission(self, request, view):
-        is_veterinario = request.user.groups.filter(name="veterinarios").exists()
+        is_veterinario = verify_group(request.user, "veterinarios")
         if is_veterinario:
             return is_veterinario
 
@@ -18,7 +19,7 @@ class IsVeterinarioOrTutor(permissions.BasePermission):
         return is_tutor
 
     def has_object_permission(self, request, view, obj):
-        is_veterinario = request.user.groups.filter(name="veterinarios").exists()
+        is_veterinario = verify_group(request.user, "veterinarios")
         if is_veterinario:
             return is_veterinario
 
@@ -33,7 +34,7 @@ class IsVeterinarioOrTutor(permissions.BasePermission):
 
 class IsVetOrTutorHimself(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
-        is_vet = request.user.groups.filter(name="veterinarios").exists()
+        is_vet = verify_group(request.user, "veterinarios")
         if is_vet:
             return True
 

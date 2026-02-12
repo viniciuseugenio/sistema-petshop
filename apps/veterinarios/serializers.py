@@ -2,7 +2,7 @@ from django.contrib.auth.models import Group, User
 from rest_framework import serializers
 
 from apps.accounts.serializers import UserBasicSerializer, UserSerializer
-from apps.utils import validate_user_with_id
+from apps.utils import validate_user_with_id, verify_group
 
 from . import models
 
@@ -40,7 +40,7 @@ class VeterinarioCreateSerializer(serializers.Serializer):
         if user_id:
             try:
                 user = User.objects.get(id=user_id)
-                if user.groups.filter(name="veterinarios").exists():
+                if verify_group(user, "veterinarios"):
                     raise serializers.ValidationError(
                         {"user_id": "Este usuário já é um veterinário"}
                     )

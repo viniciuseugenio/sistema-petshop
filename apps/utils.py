@@ -48,3 +48,7 @@ def set_refresh_token(response, token):
         secure=True,
         httponly=True,
     )
+
+
+def verify_group(user, group_name):
+    return user.groups.filter(name=group_name).exists()

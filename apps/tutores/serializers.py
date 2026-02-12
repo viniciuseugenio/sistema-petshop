@@ -3,7 +3,7 @@ from django.contrib.auth.models import Group, User
 
 from apps.accounts.serializers import UserBasicSerializer, UserSerializer
 from apps.tutores import models
-from apps.utils import validate_user_with_id
+from apps.utils import validate_user_with_id, verify_group
 
 
 class TutorSerializer(serializers.ModelSerializer):
@@ -39,7 +39,7 @@ class TutorCreateSerializer(serializers.Serializer):
         if user_id:
             try:
                 user = User.objects.get(id=user_id)
-                if user.groups.filter(name="tutores").exists():
+                if verify_group(user, "tutores"):
                     raise serializers.ValidationError(
                         {"user_id": "Este usuário já é um tutor"}
                     )

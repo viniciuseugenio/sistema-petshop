@@ -9,6 +9,7 @@ from rest_framework.viewsets import ModelViewSet
 from apps.permissions import IsVeterinario, IsVeterinarioOrTutor
 from apps.pets.schemas import PetSchema
 from apps.tutores.models import Tutor
+from apps.utils import verify_group
 
 from . import serializers
 from .models import Pet
@@ -33,7 +34,7 @@ class PetViewSet(ModelViewSet):
         if tutor_id:
             queryset = queryset.filter(tutor__id=tutor_id)
 
-        is_vet = self.request.user.groups.filter(name="veterinarios").exists()
+        is_vet = verify_group(self.request.user, "veterinarios")
         if is_vet:
             return queryset
 

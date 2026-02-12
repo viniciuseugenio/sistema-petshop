@@ -3,6 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 
 from apps.permissions import IsVeterinario, IsVeterinarioOrTutor
+from apps.utils import verify_group
 from apps.vacinas.schemas import RegistroVacinaSchema, VacinaSchema
 
 from .models import RegistroVacina, Vacina
@@ -41,7 +42,7 @@ class RegistroVacinaViewSet(ModelViewSet):
             queryset = queryset.filter(veterinario__id=veterinario_id)
 
         user = self.request.user
-        if user.groups.filter(name="veterinarios").exists():
+        if verify_group(user, "veterinarios"):
             return queryset
 
         return queryset.filter(pet__tutor__user=self.request.user)
