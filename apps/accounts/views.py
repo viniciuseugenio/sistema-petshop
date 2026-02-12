@@ -49,7 +49,10 @@ class CustomTokenRefreshView(generics.GenericAPIView):
         refresh_token = request.COOKIES.get("refresh_token")
 
         if not refresh_token:
-            return Response({"detail": "O token não foi enviado"})
+            return Response(
+                {"detail": "O token não foi enviado"},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
 
         try:
             refresh = RefreshToken(refresh_token)
