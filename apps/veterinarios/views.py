@@ -1,14 +1,17 @@
+from drf_spectacular.utils import extend_schema, extend_schema_view
 from rest_framework import status
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from apps.permissions import IsVeterinario, IsVetHimself
+from apps.veterinarios.schemas import VeterinarioSchema
 
 from . import models, serializers
 
 
-# Create your views here.
+@extend_schema_view(**VeterinarioSchema.__dict__)
+@extend_schema(tags=["veterinarios"])
 class VeterinarioViewSet(ModelViewSet):
     queryset = models.Veterinario.objects.select_related("user")
 
