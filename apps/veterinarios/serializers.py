@@ -8,7 +8,7 @@ from . import models
 
 
 class VeterinarioSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
+    user = UserSerializer(read_only=True)
 
     class Meta:
         model = models.Veterinario
@@ -16,7 +16,7 @@ class VeterinarioSerializer(serializers.ModelSerializer):
 
 
 class VeterinarioBasicSerializer(serializers.ModelSerializer):
-    user = UserBasicSerializer()
+    user = UserBasicSerializer(read_only=True)
 
     class Meta:
         model = models.Veterinario
