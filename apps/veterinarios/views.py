@@ -22,7 +22,7 @@ class VeterinarioViewSet(ModelViewSet):
         if self.action in ["destroy", "create"]:
             return [IsAuthenticated(), IsAdminUser()]
 
-        return [IsVeterinario()]
+        return [IsAuthenticated(), IsVeterinario()]
 
     def get_serializer_class(self):
         if self.action == "create":
