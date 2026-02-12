@@ -1,3 +1,4 @@
+from drf_spectacular.utils import extend_schema, extend_schema_view
 from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
@@ -7,11 +8,14 @@ from apps.permissions import (
     IsVetOrTutorHimself,
     IsVeterinario,
 )
+from apps.tutores.schemas import TutorSchema
+
 from . import serializers
 from .models import Tutor
 
 
-# Create your views here.
+@extend_schema_view(**TutorSchema.__dict__)
+@extend_schema(tags=["tutores"])
 class TutorViewSet(ModelViewSet):
     queryset = Tutor.objects.select_related("user")
 
