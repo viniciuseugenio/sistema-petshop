@@ -33,7 +33,6 @@ class CustomTokenObtainPairView(generics.GenericAPIView):
         description="Recebe as credenciais do usuário e retorna os JWT tokens por meio de HTTPOnly cookies",
         request=LoginSchema.request,
         responses=LoginSchema.responses,
-        examples=LoginSchema.examples,
     )
     def post(self, request, *args, **kwargs):
         username = request.data.get("username")

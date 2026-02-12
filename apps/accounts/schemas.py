@@ -26,14 +26,6 @@ class LoginSchema:
         ),
     }
 
-    examples = [
-        OpenApiExample(
-            name="Exemplo de login",
-            value={"username": "davi", "password": "12alkd03."},
-            request_only=True,
-        )
-    ]
-
 
 class RefreshSchema:
     responses = {
