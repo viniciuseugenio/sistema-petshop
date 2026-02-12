@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "debug_toolbar",
     "rest_framework_simplejwt",
+    "drf_spectacular",
     # Apps customizados
     "apps.veterinarios",
     "apps.tutores",
@@ -141,6 +142,7 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "apps.accounts.authentication.JWTAuthentication",
     ),
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 INTERNAL_IPS = ["127.0.0.1", "localhost"]
@@ -149,4 +151,19 @@ SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=15),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=14),
     "ROTATE_REFRESH_TOKEN": True,
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Eugepet (IVARE)",
+    "DESCRIPTION": "API RESTful feita com Django REST Framework para gerenciamento de vacinas de pets.",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+    "TAGS": [
+        {"name": "accounts", "description": "Gerenciamento de usuários e autenticação"},
+        {"name": "veterinarios", "description": "Cadastro e gestão de veterinários"},
+        {"name": "tutores", "description": "Cadastro e gestão de tutores"},
+        {"name": "pets", "description": "Cadastro e gestão de pets"},
+        {"name": "vacinas", "description": "Unidades de vacinas disponíveis"},
+        {"name": "registros", "description": "Registros de vacinas aplicadas"},
+    ],
 }
