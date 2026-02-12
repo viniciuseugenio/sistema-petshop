@@ -1,13 +1,8 @@
 from django.contrib.auth import authenticate
-from rest_framework import serializers
 from django.contrib.auth.models import User
-from drf_spectacular.utils import (
-    OpenApiExample,
-    OpenApiResponse,
-    extend_schema,
-    inline_serializer,
-)
+from drf_spectacular.utils import extend_schema
 from rest_framework import generics, status
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.exceptions import TokenError
@@ -16,13 +11,19 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from apps.accounts.schemas import LoginSchema, LogoutSchema, RefreshSchema
 from apps.utils import set_access_token, set_refresh_token
 
-from .serializers import UserSerializer, UserWGroupsSerializer
+from .serializers import UserWGroupsSerializer
 
 
-# Create your views here.
+@extend_schema(
+    tags=["accounts"],
+    summary="Listar usuários",
+    description="Requer permissão de administrador. Lista todods os usuários.",
+    responses=UserWGroupsSerializer,
+)
 class AccountsList(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserWGroupsSerializer
+    permission_classes = [IsAuthenticated, IsAdminUser]
 
 
 class CustomTokenObtainPairView(generics.GenericAPIView):
