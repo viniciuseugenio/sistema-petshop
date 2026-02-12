@@ -13,6 +13,7 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from apps.accounts.schemas import LoginSchema, LogoutSchema, RefreshSchema
 from apps.utils import set_access_token, set_refresh_token
 
 from .serializers import UserSerializer, UserWGroupsSerializer
@@ -29,32 +30,9 @@ class CustomTokenObtainPairView(generics.GenericAPIView):
         tags=["accounts"],
         summary="Fazer login",
         description="Recebe as credenciais do usuário e retorna os JWT tokens por meio de HTTPOnly cookies",
-        request=inline_serializer(
-            name="LoginRequest",
-            fields={
-                "username": serializers.CharField(),
-                "password": serializers.CharField(),
-            },
-        ),
-        responses={
-            200: OpenApiResponse(
-                description="Login bem sucedido",
-                response=UserWGroupsSerializer,
-            ),
-            401: OpenApiResponse(
-                description="Falha na autenticação",
-                response=inline_serializer(
-                    name="Falha no Login", fields={"detail": serializers.CharField()}
-                ),
-            ),
-        },
-        examples=[
-            OpenApiExample(
-                name="Exemplo de login",
-                value={"username": "davi", "password": "12alkd03."},
-                request_only=True,
-            )
-        ],
+        request=LoginSchema.request,
+        responses=LoginSchema.responses,
+        examples=LoginSchema.examples,
     )
     def post(self, request, *args, **kwargs):
         username = request.data.get("username")
@@ -88,20 +66,7 @@ class CustomTokenRefreshView(generics.GenericAPIView):
         summary="Atualizar tokens JWT",
         description="Recebe o refresh_token por meio dos cookies HTTPOnly e atualiza ambos os tokens.",
         request=None,
-        responses={
-            200: OpenApiResponse(
-                response=UserWGroupsSerializer,
-                description="Tokens atualizados com sucesso. Novos tokens enviados via cookies HTTPOnly.",
-            ),
-            401: OpenApiResponse(
-                response=inline_serializer(
-                    name="TokenRefreshError",
-                    fields={
-                        "detail": serializers.CharField(),
-                    },
-                ),
-            ),
-        },
+        responses=RefreshSchema.responses,
     )
     def post(self, request, *args, **kwargs):
         refresh_token = request.COOKIES.get("refresh_token")
@@ -147,14 +112,7 @@ class LogoutView(APIView):
         tags=["accounts"],
         summary="Remover tokens JWT",
         description="Remove ambos os tokens dos cookies",
-        responses={
-            200: OpenApiResponse(
-                response=inline_serializer(
-                    name="Deslogado com sucesso",
-                    fields={"detail": serializers.CharField()},
-                )
-            )
-        },
+        responses=LogoutSchema.responses,
     )
     def post(self, request):
         response = Response({"detail": "Você foi deslogado com sucesso"})
