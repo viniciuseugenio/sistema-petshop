@@ -1,5 +1,12 @@
 from django.contrib.auth import authenticate
+from rest_framework import serializers
 from django.contrib.auth.models import User
+from drf_spectacular.utils import (
+    OpenApiExample,
+    OpenApiResponse,
+    extend_schema,
+    inline_serializer,
+)
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -8,7 +15,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 from apps.utils import set_access_token, set_refresh_token
 
-from .serializers import UserWGroupsSerializer
+from .serializers import UserSerializer, UserWGroupsSerializer
 
 
 # Create your views here.
@@ -18,6 +25,37 @@ class AccountsList(generics.ListAPIView):
 
 
 class CustomTokenObtainPairView(generics.GenericAPIView):
+    @extend_schema(
+        tags=["accounts"],
+        summary="Fazer login",
+        description="Recebe as credenciais do usuário e retorna os JWT tokens por meio de HTTPOnly cookies",
+        request=inline_serializer(
+            name="LoginRequest",
+            fields={
+                "username": serializers.CharField(),
+                "password": serializers.CharField(),
+            },
+        ),
+        responses={
+            200: OpenApiResponse(
+                description="Login bem sucedido",
+                response=UserWGroupsSerializer,
+            ),
+            401: OpenApiResponse(
+                description="Falha na autenticação",
+                response=inline_serializer(
+                    name="Falha no Login", fields={"detail": serializers.CharField()}
+                ),
+            ),
+        },
+        examples=[
+            OpenApiExample(
+                name="Exemplo de login",
+                value={"username": "davi", "password": "12alkd03."},
+                request_only=True,
+            )
+        ],
+    )
     def post(self, request, *args, **kwargs):
         username = request.data.get("username")
         password = request.data.get("password")
