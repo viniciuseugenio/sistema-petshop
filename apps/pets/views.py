@@ -1,28 +1,30 @@
+from drf_spectacular.utils import (
+    OpenApiParameter,
+    extend_schema,
+    extend_schema_view,
+)
 from rest_framework.permissions import IsAdminUser
 from rest_framework.viewsets import ModelViewSet
 
 from apps.permissions import IsVeterinario, IsVeterinarioOrTutor
+from apps.pets.schemas import PetSchema
 from apps.tutores.models import Tutor
 
 from . import serializers
 from .models import Pet
 
 
+@extend_schema_view(**PetSchema.__dict__)
+@extend_schema(tags=["pets"])
 class PetViewSet(ModelViewSet):
     def get_permissions(self):
         if self.action == "destroy":
             return [IsAdminUser()]
 
-        if self.action in ["partial_update", "update"]:
+        if self.action in ["partial_update", "update", "create"]:
             return [IsVeterinario()]
 
         return [IsVeterinarioOrTutor()]
-
-    """
-    É possível filtar os pets por tutor através de query params.
-    Caso o usuário seja um tutor mas não veterinário, esse endpoint retorna somente
-    os pets do usuário em si.
-    """
 
     def get_queryset(self):
         queryset = Pet.objects.select_related("tutor", "tutor__user")
