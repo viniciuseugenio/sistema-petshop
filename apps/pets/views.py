@@ -3,7 +3,7 @@ from drf_spectacular.utils import (
     extend_schema,
     extend_schema_view,
 )
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 
 from apps.permissions import IsVeterinario, IsVeterinarioOrTutor
@@ -19,12 +19,12 @@ from .models import Pet
 class PetViewSet(ModelViewSet):
     def get_permissions(self):
         if self.action == "destroy":
-            return [IsAdminUser()]
+            return [IsAuthenticated(), IsAdminUser()]
 
         if self.action in ["partial_update", "update", "create"]:
-            return [IsVeterinario()]
+            return [IsAuthenticated(), IsVeterinario()]
 
-        return [IsVeterinarioOrTutor()]
+        return [IsAuthenticated(), IsVeterinarioOrTutor()]
 
     def get_queryset(self):
         queryset = Pet.objects.select_related("tutor", "tutor__user")

@@ -5,16 +5,11 @@ from apps.tutores.models import Tutor
 
 class IsVeterinario(permissions.BasePermission):
     def has_permission(self, request, view):
-        if not request.user.is_authenticated:
-            return False
         return request.user.groups.filter(name="veterinarios").exists()
 
 
 class IsVeterinarioOrTutor(permissions.BasePermission):
     def has_permission(self, request, view):
-        if not request.user.is_authenticated:
-            return False
-
         is_veterinario = request.user.groups.filter(name="veterinarios").exists()
         if is_veterinario:
             return is_veterinario
@@ -23,9 +18,6 @@ class IsVeterinarioOrTutor(permissions.BasePermission):
         return is_tutor
 
     def has_object_permission(self, request, view, obj):
-        if not request.user.is_authenticated:
-            return False
-
         is_veterinario = request.user.groups.filter(name="veterinarios").exists()
         if is_veterinario:
             return is_veterinario

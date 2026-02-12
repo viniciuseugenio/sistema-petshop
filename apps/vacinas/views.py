@@ -1,3 +1,5 @@
+from drf_spectacular.utils import extend_schema
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 
 from apps.permissions import IsVeterinario, IsVeterinarioOrTutor
@@ -10,14 +12,16 @@ from .serializers import (
 )
 
 
+@extend_schema(tags=["vacinas"])
 class VacinaViewSet(ModelViewSet):
     queryset = Vacina.objects.all()
     serializer_class = VacinaSerializer
-    permission_classes = [IsVeterinario]
+    permission_classes = [IsAuthenticated, IsVeterinario]
 
 
+@extend_schema(tags=["registros"])
 class RegistroVacinaViewSet(ModelViewSet):
-    permission_classes = [IsVeterinarioOrTutor]
+    permission_classes = [IsAuthenticated, IsVeterinarioOrTutor]
 
     def get_queryset(self):
         queryset = RegistroVacina.objects.select_related(

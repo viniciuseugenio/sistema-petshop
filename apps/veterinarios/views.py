@@ -1,6 +1,6 @@
 from drf_spectacular.utils import extend_schema, extend_schema_view
 from rest_framework import status
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
@@ -17,10 +17,10 @@ class VeterinarioViewSet(ModelViewSet):
 
     def get_permissions(self):
         if self.action in ["partial_update", "update"]:
-            return [IsVetHimself()]
+            return [IsAuthenticated(), IsVetHimself()]
 
         if self.action in ["destroy", "create"]:
-            return [IsAdminUser()]
+            return [IsAuthenticated(), IsAdminUser()]
 
         return [IsVeterinario()]
 
