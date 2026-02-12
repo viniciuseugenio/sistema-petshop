@@ -39,6 +39,16 @@ class IsVeterinarioOrTutor(permissions.BasePermission):
         return is_tutor
 
 
+class IsVetOrTutorHimself(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+        is_vet = request.user.groups.filter(name="veterinarios").exists()
+        if is_vet:
+            return True
+
+        tutor = Tutor.objects.get(user=request.user)
+        return obj == tutor
+
+
 class IsVetHimself(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         if not request.user.is_authenticated:

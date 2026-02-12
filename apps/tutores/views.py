@@ -1,11 +1,14 @@
 from rest_framework import status
-from rest_framework.permissions import AllowAny
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.viewsets import ModelViewSet
 
-from apps.permissions import IsVeterinario
-from .models import Tutor
+from apps.permissions import (
+    IsVetOrTutorHimself,
+    IsVeterinario,
+)
 from . import serializers
+from .models import Tutor
 
 
 # Create your views here.
@@ -13,10 +16,10 @@ class TutorViewSet(ModelViewSet):
     queryset = Tutor.objects.select_related("user")
 
     def get_permissions(self):
-        if self.action == "create":
-            return [AllowAny()]
+        if self.action == "retrieve":
+            return [IsAuthenticated(), IsVetOrTutorHimself()]
 
-        return [IsVeterinario()]
+        return [IsAuthenticated(), IsVeterinario()]
 
     def get_serializer_class(self):
         if self.action == "create":
