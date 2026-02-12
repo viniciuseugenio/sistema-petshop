@@ -143,6 +143,19 @@ class CustomTokenRefreshView(generics.GenericAPIView):
 
 
 class LogoutView(APIView):
+    @extend_schema(
+        tags=["accounts"],
+        summary="Remover tokens JWT",
+        description="Remove ambos os tokens dos cookies",
+        responses={
+            200: OpenApiResponse(
+                response=inline_serializer(
+                    name="Deslogado com sucesso",
+                    fields={"detail": serializers.CharField()},
+                )
+            )
+        },
+    )
     def post(self, request):
         response = Response({"detail": "Você foi deslogado com sucesso"})
         response.delete_cookie("access_token")
