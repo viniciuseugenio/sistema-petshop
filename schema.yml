@@ -1,0 +1,1379 @@
+openapi: 3.0.3
+info:
+  title: Eugepet (IVARE)
+  version: 1.0.0
+  description: API RESTful feita com Django REST Framework para gerenciamento de vacinas
+    de pets.
+paths:
+  /api/v1/accounts/:
+    get:
+      operationId: v1_accounts_list
+      description: Requer permissão de administrador. Lista todods os usuários.
+      summary: Listar usuários
+      tags:
+      - accounts
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserWGroups'
+          description: ''
+  /api/v1/accounts/logout/:
+    post:
+      operationId: v1_accounts_logout_create
+      description: Remove ambos os tokens dos cookies
+      summary: Remover tokens JWT
+      tags:
+      - accounts
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Deslogado com sucesso'
+          description: ''
+  /api/v1/accounts/token/:
+    post:
+      operationId: v1_accounts_token_create
+      description: Recebe as credenciais do usuário e retorna os JWT tokens por meio
+        de HTTPOnly cookies
+      summary: Fazer login
+      tags:
+      - accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserWGroups'
+          description: Login bem sucedido
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Falha no Login'
+          description: Falha na autenticação
+  /api/v1/accounts/token/refresh/:
+    post:
+      operationId: v1_accounts_token_refresh_create
+      description: Recebe o refresh_token por meio dos cookies HTTPOnly e atualiza
+        ambos os tokens.
+      summary: Atualizar tokens JWT
+      tags:
+      - accounts
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserWGroups'
+          description: Tokens atualizados com sucesso. Novos tokens enviados via cookies
+            HTTPOnly.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefreshError'
+          description: ''
+  /api/v1/pets/:
+    get:
+      operationId: v1_pets_list
+      description: Veterinários veem todos. Tutores veem apenas seus pets.
+      summary: Listagem de pets
+      parameters:
+      - in: query
+        name: tutor
+        schema:
+          type: integer
+        description: Para visualizar os pets de um tutor especifico
+      tags:
+      - pets
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PetList'
+          description: ''
+    post:
+      operationId: v1_pets_create
+      description: Requer permissão de veterinário.
+      summary: Cadastrar novo pet
+      tags:
+      - pets
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PetCreate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PetCreate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PetCreate'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PetCreate'
+          description: ''
+  /api/v1/pets/{id}/:
+    get:
+      operationId: v1_pets_retrieve
+      description: Retorna informações detalhadas de um pet específico, incluindo
+        dados completos do tutor.
+      summary: Obter detalhes de um pet
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - pets
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PetDetails'
+          description: ''
+    put:
+      operationId: v1_pets_update
+      description: Requer permissão de veterinário.
+      summary: Atualizar pet (completo)
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - pets
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PetList'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PetList'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PetList'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PetList'
+          description: ''
+    patch:
+      operationId: v1_pets_partial_update
+      description: Requer permissão de veterinário.
+      summary: Atualizar pet (parcial)
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - pets
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedPetList'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedPetList'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedPetList'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PetList'
+          description: ''
+    delete:
+      operationId: v1_pets_destroy
+      description: Requer permissão de administrador.
+      summary: Deletar pet
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - pets
+      security:
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/tutores/:
+    get:
+      operationId: v1_tutores_list
+      description: Requer permissão de veterinário.
+      summary: Listagem de tutores
+      tags:
+      - tutores
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tutor'
+          description: ''
+    post:
+      operationId: v1_tutores_create
+      description: Qualquer pessoa pode se cadastrar como tutor. Envia todos os dados
+        do user caso queira criar um, ou apenas o user_id caso já exista.
+      summary: Cadastrar novo tutor
+      tags:
+      - tutores
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TutorCreate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TutorCreate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TutorCreate'
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tutor'
+          description: ''
+  /api/v1/tutores/{id}/:
+    get:
+      operationId: v1_tutores_retrieve
+      description: Requer permissão de veterinário, ou ser o próprio tutor.
+      summary: Obter detalhes do tutor
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este Tutor.
+        required: true
+      tags:
+      - tutores
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tutor'
+          description: ''
+    put:
+      operationId: v1_tutores_update
+      description: Requer permissão de veterinário.
+      summary: Atualizar tutor (completo)
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este Tutor.
+        required: true
+      tags:
+      - tutores
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tutor'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Tutor'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Tutor'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tutor'
+          description: ''
+    patch:
+      operationId: v1_tutores_partial_update
+      description: Requer permissão de veterinário.
+      summary: Atualizar tutor (parcial)
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este Tutor.
+        required: true
+      tags:
+      - tutores
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedTutor'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedTutor'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedTutor'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tutor'
+          description: ''
+    delete:
+      operationId: v1_tutores_destroy
+      description: Requer permissão de veterinário.
+      summary: Deletar tutor
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este Tutor.
+        required: true
+      tags:
+      - tutores
+      security:
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/vacinas/registros/:
+    get:
+      operationId: v1_vacinas_registros_list
+      description: "\n        Lista registros de vacinação aplicadas em pets.\n        \n
+        \       Filtros:\n        - `pet`: ID do pet para filtrar registros\n        -
+        `veterinario`: ID do veterinário para filtrar registros\n        \n        Regras
+        de acesso:\n        - Veterinários: visualizam todos os registros\n        -
+        Tutores: visualizam apenas registros de seus pets\n        "
+      summary: Listagem de registros de vacinação
+      parameters:
+      - in: query
+        name: pet
+        schema:
+          type: integer
+        description: Filtrar registros por ID do pet
+      - in: query
+        name: veterinario
+        schema:
+          type: integer
+        description: Filtrar registros por ID do veterinário
+      tags:
+      - registros
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RegistroVacinaList'
+          description: ''
+    post:
+      operationId: v1_vacinas_registros_create
+      description: Cria um novo registro de vacinação aplicada em um pet. Requer permissão
+        de veterinário ou tutor.
+      summary: Registrar vacinação
+      tags:
+      - registros
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegistroVacinaDetails'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RegistroVacinaDetails'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RegistroVacinaDetails'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegistroVacinaDetails'
+          description: ''
+  /api/v1/vacinas/registros/{id}/:
+    get:
+      operationId: v1_vacinas_registros_retrieve
+      description: Retorna informações detalhadas de um registro de vacinação específico.
+      summary: Obter detalhes do registro de vacinação
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - registros
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegistroVacinaDetails'
+          description: ''
+    put:
+      operationId: v1_vacinas_registros_update
+      description: Requer permissão de veterinário ou tutor.
+      summary: Atualizar registro de vacinação (completo)
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - registros
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegistroVacinaDetails'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RegistroVacinaDetails'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RegistroVacinaDetails'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegistroVacinaDetails'
+          description: ''
+    patch:
+      operationId: v1_vacinas_registros_partial_update
+      description: Requer permissão de veterinário ou tutor.
+      summary: Atualizar registro de vacinação (parcial)
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - registros
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedRegistroVacinaDetails'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedRegistroVacinaDetails'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedRegistroVacinaDetails'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegistroVacinaDetails'
+          description: ''
+    delete:
+      operationId: v1_vacinas_registros_destroy
+      description: Requer permissão de veterinário ou tutor.
+      summary: Deletar registro de vacinação
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - registros
+      security:
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/vacinas/unidades/:
+    get:
+      operationId: v1_vacinas_unidades_list
+      description: Requer permissão de veterinário. Lista todas as unidades de vacinas
+        disponíveis no sistema.
+      summary: Listagem de vacinas
+      tags:
+      - vacinas
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Vacina'
+          description: ''
+    post:
+      operationId: v1_vacinas_unidades_create
+      description: Requer permissão de veterinário. Cria uma nova unidade de vacina.
+      summary: Cadastrar nova vacina
+      tags:
+      - vacinas
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vacina'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Vacina'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Vacina'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vacina'
+          description: ''
+  /api/v1/vacinas/unidades/{id}/:
+    get:
+      operationId: v1_vacinas_unidades_retrieve
+      description: Requer permissão de veterinário.
+      summary: Obter detalhes da vacina
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este vacina.
+        required: true
+      tags:
+      - vacinas
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vacina'
+          description: ''
+    put:
+      operationId: v1_vacinas_unidades_update
+      description: Requer permissão de veterinário.
+      summary: Atualizar vacina (completo)
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este vacina.
+        required: true
+      tags:
+      - vacinas
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vacina'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Vacina'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Vacina'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vacina'
+          description: ''
+    patch:
+      operationId: v1_vacinas_unidades_partial_update
+      description: Requer permissão de veterinário.
+      summary: Atualizar vacina (parcial)
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este vacina.
+        required: true
+      tags:
+      - vacinas
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedVacina'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedVacina'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedVacina'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vacina'
+          description: ''
+    delete:
+      operationId: v1_vacinas_unidades_destroy
+      description: Requer permissão de veterinário.
+      summary: Deletar vacina
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este vacina.
+        required: true
+      tags:
+      - vacinas
+      security:
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/veterinarios/:
+    get:
+      operationId: v1_veterinarios_list
+      description: Requer permissão de veterinário.
+      summary: Listagem de veterinários
+      tags:
+      - veterinarios
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Veterinario'
+          description: ''
+    post:
+      operationId: v1_veterinarios_create
+      description: Requer permissão de administrador. Envia todos os dados do user
+        caso queira criar um, ou apenas o user_id caso já exista.
+      summary: Cadastrar novo veterinário
+      tags:
+      - veterinarios
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VeterinarioCreate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/VeterinarioCreate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/VeterinarioCreate'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VeterinarioCreate'
+          description: ''
+  /api/v1/veterinarios/{id}/:
+    get:
+      operationId: v1_veterinarios_retrieve
+      description: Requer permissão de veterinário.
+      summary: Obter detalhes do veterinário
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este veterinario.
+        required: true
+      tags:
+      - veterinarios
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Veterinario'
+          description: ''
+    put:
+      operationId: v1_veterinarios_update
+      description: O usuário deve ser o próprio veterinário.
+      summary: Atualizar veterinário (completo)
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este veterinario.
+        required: true
+      tags:
+      - veterinarios
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Veterinario'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Veterinario'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Veterinario'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Veterinario'
+          description: ''
+    patch:
+      operationId: v1_veterinarios_partial_update
+      description: O usuário deve ser o próprio veterinário.
+      summary: Atualizar veterinário (parcial)
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este veterinario.
+        required: true
+      tags:
+      - veterinarios
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedVeterinario'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedVeterinario'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedVeterinario'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Veterinario'
+          description: ''
+    delete:
+      operationId: v1_veterinarios_destroy
+      description: Request permissão de administrador
+      summary: Deletar veterinário
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este veterinario.
+        required: true
+      tags:
+      - veterinarios
+      security:
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+components:
+  schemas:
+    Deslogado com sucesso:
+      type: object
+      properties:
+        detail:
+          type: string
+      required:
+      - detail
+    Falha no Login:
+      type: object
+      properties:
+        detail:
+          type: string
+      required:
+      - detail
+    LoginRequest:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+      required:
+      - password
+      - username
+    PatchedPetList:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        nome:
+          type: string
+          maxLength: 100
+        tutor:
+          allOf:
+          - $ref: '#/components/schemas/TutorBasic'
+          readOnly: true
+        especie:
+          type: string
+          maxLength: 50
+        raca:
+          type: string
+          nullable: true
+          maxLength: 100
+        data_nascimento:
+          type: string
+          format: date
+          nullable: true
+    PatchedRegistroVacinaDetails:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        veterinario:
+          $ref: '#/components/schemas/VeterinarioBasic'
+        vacina:
+          $ref: '#/components/schemas/Vacina'
+        pet:
+          $ref: '#/components/schemas/PetSemTutor'
+        observacoes:
+          type: string
+        data:
+          type: string
+          format: date
+    PatchedTutor:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user:
+          $ref: '#/components/schemas/User'
+        celular:
+          type: string
+          maxLength: 20
+    PatchedVacina:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        nome:
+          type: string
+          maxLength: 120
+    PatchedVeterinario:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user:
+          allOf:
+          - $ref: '#/components/schemas/User'
+          readOnly: true
+        celular:
+          type: string
+          maxLength: 20
+    PetBasic:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        nome:
+          type: string
+          maxLength: 100
+      required:
+      - id
+      - nome
+    PetCreate:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        nome:
+          type: string
+          maxLength: 100
+        tutor:
+          type: integer
+        especie:
+          type: string
+          maxLength: 50
+        raca:
+          type: string
+          nullable: true
+          maxLength: 100
+        data_nascimento:
+          type: string
+          format: date
+          nullable: true
+      required:
+      - especie
+      - id
+      - nome
+      - tutor
+    PetDetails:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        nome:
+          type: string
+          maxLength: 100
+        tutor:
+          allOf:
+          - $ref: '#/components/schemas/Tutor'
+          readOnly: true
+        especie:
+          type: string
+          maxLength: 50
+        raca:
+          type: string
+          nullable: true
+          maxLength: 100
+        data_nascimento:
+          type: string
+          format: date
+          nullable: true
+      required:
+      - especie
+      - id
+      - nome
+      - tutor
+    PetList:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        nome:
+          type: string
+          maxLength: 100
+        tutor:
+          allOf:
+          - $ref: '#/components/schemas/TutorBasic'
+          readOnly: true
+        especie:
+          type: string
+          maxLength: 50
+        raca:
+          type: string
+          nullable: true
+          maxLength: 100
+        data_nascimento:
+          type: string
+          format: date
+          nullable: true
+      required:
+      - especie
+      - id
+      - nome
+      - tutor
+    PetSemTutor:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        nome:
+          type: string
+          maxLength: 100
+        especie:
+          type: string
+          maxLength: 50
+        raca:
+          type: string
+          nullable: true
+          maxLength: 100
+        data_nascimento:
+          type: string
+          format: date
+          nullable: true
+      required:
+      - especie
+      - id
+      - nome
+    RegistroVacinaDetails:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        veterinario:
+          $ref: '#/components/schemas/VeterinarioBasic'
+        vacina:
+          $ref: '#/components/schemas/Vacina'
+        pet:
+          $ref: '#/components/schemas/PetSemTutor'
+        observacoes:
+          type: string
+        data:
+          type: string
+          format: date
+      required:
+      - id
+      - pet
+      - vacina
+      - veterinario
+    RegistroVacinaList:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        veterinario:
+          $ref: '#/components/schemas/VeterinarioBasic'
+        vacina:
+          $ref: '#/components/schemas/Vacina'
+        pet:
+          $ref: '#/components/schemas/PetBasic'
+        data:
+          type: string
+          format: date
+      required:
+      - id
+      - pet
+      - vacina
+      - veterinario
+    TokenRefreshError:
+      type: object
+      properties:
+        detail:
+          type: string
+      required:
+      - detail
+    Tutor:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user:
+          $ref: '#/components/schemas/User'
+        celular:
+          type: string
+          maxLength: 20
+      required:
+      - celular
+      - id
+      - user
+    TutorBasic:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user:
+          $ref: '#/components/schemas/UserBasic'
+        celular:
+          type: string
+          maxLength: 20
+      required:
+      - celular
+      - id
+      - user
+    TutorCreate:
+      type: object
+      properties:
+        username:
+          type: string
+          maxLength: 150
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          maxLength: 128
+        user_id:
+          type: integer
+        celular:
+          type: string
+          maxLength: 20
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          title: Usuário
+          description: Obrigatório. 150 caracteres ou menos. Letras, números e @/./+/-/_
+            apenas.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        first_name:
+          type: string
+          title: Primeiro nome
+          maxLength: 150
+        last_name:
+          type: string
+          title: Último nome
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          title: Endereço de email
+          maxLength: 254
+      required:
+      - id
+      - username
+    UserBasic:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          title: Usuário
+          description: Obrigatório. 150 caracteres ou menos. Letras, números e @/./+/-/_
+            apenas.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+      required:
+      - id
+      - username
+    UserWGroups:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          title: Usuário
+          description: Obrigatório. 150 caracteres ou menos. Letras, números e @/./+/-/_
+            apenas.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        first_name:
+          type: string
+          title: Primeiro nome
+          maxLength: 150
+        last_name:
+          type: string
+          title: Último nome
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          title: Endereço de email
+          maxLength: 254
+        groups:
+          type: array
+          items:
+            type: string
+          readOnly: true
+      required:
+      - groups
+      - id
+      - username
+    Vacina:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        nome:
+          type: string
+          maxLength: 120
+      required:
+      - id
+      - nome
+    Veterinario:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user:
+          allOf:
+          - $ref: '#/components/schemas/User'
+          readOnly: true
+        celular:
+          type: string
+          maxLength: 20
+      required:
+      - celular
+      - id
+      - user
+    VeterinarioBasic:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user:
+          allOf:
+          - $ref: '#/components/schemas/UserBasic'
+          readOnly: true
+        celular:
+          type: string
+          maxLength: 20
+      required:
+      - celular
+      - id
+      - user
+    VeterinarioCreate:
+      type: object
+      properties:
+        username:
+          type: string
+          maxLength: 150
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          maxLength: 128
+        user_id:
+          type: integer
+        celular:
+          type: string
+          maxLength: 20
+      required:
+      - celular
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: access_token
+      description: Autenticação via JWT armazenado em cookies HTTPOnly. Faça login
+        em `/api/v1/token/` para obter os tokens automaticamente.
+tags:
+- name: accounts
+  description: Gerenciamento de usuários e autenticação
+- name: veterinarios
+  description: Cadastro e gestão de veterinários
+- name: tutores
+  description: Cadastro e gestão de tutores
+- name: pets
+  description: Cadastro e gestão de pets
+- name: vacinas
+  description: Unidades de vacinas disponíveis
+- name: registros
+  description: Registros de vacinas aplicadas
