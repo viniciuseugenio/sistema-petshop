@@ -18,9 +18,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from debug_toolbar.toolbar import debug_toolbar_urls
-from apps.accounts.views import CustomTokenObtainPairView, CustomTokenRefreshView
-from rest_framework_simplejwt.views import (
-    TokenVerifyView,
+from apps.accounts.views import (
+    CustomTokenObtainPairView,
+    CustomTokenRefreshView,
 )
 from drf_spectacular.views import (
     SpectacularAPIView,
@@ -40,7 +40,6 @@ urlpatterns = [
     path(
         "api/v1/token/refresh/", CustomTokenRefreshView.as_view(), name="token_refresh"
     ),
-    path("api/v1/token/verify/", TokenVerifyView.as_view(), name="token_verify"),
     path("api/schema", SpectacularAPIView.as_view(), name="schema"),
     path("api/schema/swagger-ui", SpectacularSwaggerView.as_view(), name="swagger-ui"),
 ] + debug_toolbar_urls()
