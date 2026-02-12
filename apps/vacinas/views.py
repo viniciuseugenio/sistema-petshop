@@ -1,5 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
 
+from apps.permissions import IsVeterinario, IsVeterinarioOrTutor
+
 from .models import RegistroVacina, Vacina
 from .serializers import (
     RegistroVacinaDetailsSerializer,
@@ -11,9 +13,12 @@ from .serializers import (
 class VacinaViewSet(ModelViewSet):
     queryset = Vacina.objects.all()
     serializer_class = VacinaSerializer
+    permission_classes = [IsVeterinario]
 
 
 class RegistroVacinaViewSet(ModelViewSet):
+    permission_classes = [IsVeterinarioOrTutor]
+
     def get_queryset(self):
         queryset = RegistroVacina.objects.select_related(
             "veterinario__user", "vacina", "pet__tutor__user"
@@ -28,7 +33,11 @@ class RegistroVacinaViewSet(ModelViewSet):
         if veterinario_id:
             queryset = queryset.filter(veterinario__id=veterinario_id)
 
-        return queryset
+        user = self.request.user
+        if user.groups.filter(name="veterinarios").exists():
+            return queryset
+
+        return queryset.filter(pet__tutor__user=self.request.user)
 
     def get_serializer_class(self):
         if self.action == "list":
