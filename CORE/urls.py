@@ -35,10 +35,14 @@ urlpatterns = [
     path("api/v1/pets/", include("apps.pets.urls")),
     path("api/v1/vacinas/", include("apps.vacinas.urls")),
     path(
-        "api/v1/token/", CustomTokenObtainPairView.as_view(), name="token_obtain_pair"
+        "api/v1/accounts/token/",
+        CustomTokenObtainPairView.as_view(),
+        name="token_obtain_pair",
     ),
     path(
-        "api/v1/token/refresh/", CustomTokenRefreshView.as_view(), name="token_refresh"
+        "api/v1/accounts/token/refresh/",
+        CustomTokenRefreshView.as_view(),
+        name="token_refresh",
     ),
     path("api/schema", SpectacularAPIView.as_view(), name="schema"),
     path("api/schema/swagger-ui", SpectacularSwaggerView.as_view(), name="swagger-ui"),
