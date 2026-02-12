@@ -1,7 +1,7 @@
 from rest_framework.permissions import IsAdminUser
 from rest_framework.viewsets import ModelViewSet
 
-from apps.permissions import IsVeterinarioOrTutor
+from apps.permissions import IsVeterinario, IsVeterinarioOrTutor
 from apps.tutores.models import Tutor
 
 from . import serializers
@@ -12,6 +12,9 @@ class PetViewSet(ModelViewSet):
     def get_permissions(self):
         if self.action == "destroy":
             return [IsAdminUser()]
+
+        if self.action in ["partial_update", "update"]:
+            return [IsVeterinario()]
 
         return [IsVeterinarioOrTutor()]
 
