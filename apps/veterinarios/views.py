@@ -1,15 +1,25 @@
-from rest_framework.viewsets import ModelViewSet
 from rest_framework import status
+from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
+from rest_framework.viewsets import ModelViewSet
 
-from apps.permissions import IsVeterinario
+from apps.permissions import IsVeterinario, IsVetHimself
+
 from . import models, serializers
 
 
 # Create your views here.
 class VeterinarioViewSet(ModelViewSet):
     queryset = models.Veterinario.objects.select_related("user")
-    permission_classes = [IsVeterinario]
+
+    def get_permissions(self):
+        if self.action in ["partial_update", "update"]:
+            return [IsVetHimself()]
+
+        if self.action in ["destroy", "create"]:
+            return [IsAdminUser()]
+
+        return [IsVeterinario()]
 
     def get_serializer_class(self):
         if self.action == "create":

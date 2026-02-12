@@ -26,3 +26,11 @@ class IsVeterinarioOrTutor(permissions.BasePermission):
             is_tutor = False
 
         return is_tutor
+
+
+class IsVetHimself(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+        if not request.user.is_authenticated:
+            return False
+
+        return obj.user == request.user
