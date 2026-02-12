@@ -53,7 +53,7 @@ Uma API RESTful onde você pode gerenciar veterinários, tutores, pets e vacinas
    python manage.py runserver
    ```
 
-   Ao rodar o servidor, toda a documentação da API estará em /api/schema/swagger-ui/, ou caso prefira, veja a collection no Postman: https://viniciuseugeniovhe-2734122.postman.co/workspace/Vin%C3%ADcius-Eug%C3%AAnio's-Workspace~aa81761c-ebb1-4277-8306-02d21e1f30aa/collection/48728992-fad475ea-51d2-4f5c-ad18-1ae07c592241?action=share&source=copy-link&creator=48728992. Ou, caso prefira, o arquivo `schema.yml` está no root do projeto e você pode usá-lo também.
+   Ao rodar o servidor, toda a documentação da API estará em /api/schema/swagger-ui/, ou, caso prefira, o arquivo `schema.yml` está no root do projeto e você pode usá-lo no seu aplicativo de preferência.
    
 
 ## Breve explicação de decisões técnicas
