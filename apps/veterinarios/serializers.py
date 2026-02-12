@@ -1,5 +1,4 @@
 from django.contrib.auth.models import Group, User
-from django.db.utils import IntegrityError
 from rest_framework import serializers
 
 from apps.accounts.serializers import UserBasicSerializer, UserSerializer
@@ -58,7 +57,7 @@ class VeterinarioCreateSerializer(serializers.Serializer):
         if user_id:
             user = User.objects.get(id=user_id)
         else:
-            user = User.objects.create(**validated_data)
+            user = User.objects.create_user(**validated_data)
 
         veterinarios_group, created = Group.objects.get_or_create(name="veterinarios")
         user.groups.add(veterinarios_group)

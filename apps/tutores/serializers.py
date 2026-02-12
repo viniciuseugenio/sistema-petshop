@@ -55,7 +55,7 @@ class TutorCreateSerializer(serializers.Serializer):
         if user_id:
             user = User.objects.get(id=user_id)
         else:
-            user = User.objects.create(**validated_data)
+            user = User.objects.create_user(**validated_data)
 
         tutores_group, created = Group.objects.get_or_create(name="tutores")
         user.groups.add(tutores_group)
