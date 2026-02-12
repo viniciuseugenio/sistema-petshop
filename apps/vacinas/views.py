@@ -8,6 +8,7 @@ from apps.vacinas.schemas import RegistroVacinaSchema, VacinaSchema
 
 from .models import RegistroVacina, Vacina
 from .serializers import (
+    RegistroVacinaCreateSerializer,
     RegistroVacinaDetailsSerializer,
     RegistroVacinaListSerializer,
     VacinaSerializer,
@@ -50,5 +51,8 @@ class RegistroVacinaViewSet(ModelViewSet):
     def get_serializer_class(self):
         if self.action == "list":
             return RegistroVacinaListSerializer
+
+        if self.action in ["create", "update", "partial_update"]:
+            return RegistroVacinaCreateSerializer
 
         return RegistroVacinaDetailsSerializer
