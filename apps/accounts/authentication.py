@@ -20,3 +20,12 @@ class JWTAuthentication(BaseAuthentication):
             raise AuthenticationFailed("Invalid or expired tokens")
         except User.DoesNotExist:
             raise AuthenticationFailed("User not found")
+
+    """
+    Sobrescrevi esse método para que, quando o usuário acesse um endpoint que exija autenticação,
+    o status code da Response não seja 403 Forbidden, mas sim 401 Unauthorized, que indica que o usuário não está
+    autenticado.
+    """
+
+    def authenticate_header(self, request):
+        return "Bearer"
