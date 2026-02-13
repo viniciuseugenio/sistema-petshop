@@ -42,7 +42,7 @@ class PetViewSet(ModelViewSet):
         return queryset.filter(tutor=tutor)
 
     def get_serializer_class(self):
-        if self.action == "create":
+        if self.action in ["create", "partial_update", "update"]:
             return serializers.PetCreateSerializer
 
         if self.action == "retrieve":

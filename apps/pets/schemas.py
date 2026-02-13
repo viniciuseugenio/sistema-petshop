@@ -37,12 +37,14 @@ class PetSchema:
         extend_schema(
             summary="Atualizar pet (completo)",
             description="Requer permissão de veterinário.",
+            request=serializers.PetCreateSerializer,
         ),
     )
     partial_update = (
         extend_schema(
             summary="Atualizar pet (parcial)",
             description="Requer permissão de veterinário.",
+            request=serializers.PetCreateSerializer,
         ),
     )
     destroy = (

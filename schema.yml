@@ -153,15 +153,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PetCreate'
-          description: ''
-        '400':
-          content:
-            application/json:
-              schema:
-                type: object
-                additionalProperties: {}
-                description: Unspecified response body
+                $ref: '#/components/schemas/PetDetails'
           description: ''
   /api/v1/pets/{id}/:
     get:
@@ -204,13 +196,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PetList'
+              $ref: '#/components/schemas/PetCreate'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PetList'
+              $ref: '#/components/schemas/PetCreate'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PetList'
+              $ref: '#/components/schemas/PetCreate'
         required: true
       security:
       - cookieAuth: []
@@ -238,13 +230,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchedPetList'
+              $ref: '#/components/schemas/PatchedPetCreate'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PatchedPetList'
+              $ref: '#/components/schemas/PatchedPetCreate'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PatchedPetList'
+              $ref: '#/components/schemas/PatchedPetCreate'
       security:
       - cookieAuth: []
       responses:
@@ -325,6 +317,7 @@ paths:
           multipart/form-data:
             schema:
               $ref: '#/components/schemas/TutorCreate'
+        required: true
       security:
       - cookieAuth: []
       responses:
@@ -501,7 +494,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RegistroVacinaCreate'
+                $ref: '#/components/schemas/RegistroVacinaDetails'
           description: ''
   /api/v1/vacinas/registros/{id}/:
     get:
@@ -826,7 +819,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/VeterinarioCreate'
+                $ref: '#/components/schemas/Veterinario'
           description: ''
   /api/v1/veterinarios/{id}/:
     get:
@@ -962,7 +955,7 @@ components:
       required:
       - password
       - username
-    PatchedPetList:
+    PatchedPetCreate:
       type: object
       properties:
         id:
@@ -972,9 +965,7 @@ components:
           type: string
           maxLength: 100
         tutor:
-          allOf:
-          - $ref: '#/components/schemas/TutorBasic'
-          readOnly: true
+          type: integer
         especie:
           type: string
           maxLength: 50
@@ -1281,6 +1272,8 @@ components:
         celular:
           type: string
           maxLength: 20
+      required:
+      - celular
     User:
       type: object
       properties:
