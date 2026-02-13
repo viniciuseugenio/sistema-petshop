@@ -155,7 +155,11 @@ SIMPLE_JWT = {
 
 SPECTACULAR_SETTINGS = {
     "TITLE": "Eugepet (IVARE)",
-    "DESCRIPTION": "API RESTful feita com Django REST Framework para gerenciamento de vacinas de pets.",
+    "DESCRIPTION": """API RESTful feita com Django REST Framework para gerenciamento de vacinas de pets.\n\n Níveis de acessoo:
+    \n\n- **Administradores**: Acesso total aos endpoints do sistema
+    \n\n- **Veterinários**: Gerenciamento de pets, tutores, vacinas e registros
+    \n\n- **Tutores**: Visualização dos próprios dados e de seus pets
+    """,
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
     "SERVERS": [{"url": "http://localhost:8000", "description": "Servidor local"}],

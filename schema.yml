@@ -2,8 +2,11 @@ openapi: 3.0.3
 info:
   title: Eugepet (IVARE)
   version: 1.0.0
-  description: API RESTful feita com Django REST Framework para gerenciamento de vacinas
-    de pets.
+  description: "API RESTful feita com Django REST Framework para gerenciamento de
+    vacinas de pets.\n\n Níveis de acessoo:\n    \n\n- **Administradores**: Acesso
+    total aos endpoints do sistema\n    \n\n- **Veterinários**: Gerenciamento de pets,
+    tutores, vacinas e registros\n    \n\n- **Tutores**: Visualização dos próprios
+    dados e de seus pets\n    "
 paths:
   /api/v1/accounts/:
     get:
@@ -146,11 +149,19 @@ paths:
       security:
       - cookieAuth: []
       responses:
-        '200':
+        '201':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PetCreate'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+                description: Unspecified response body
           description: ''
   /api/v1/pets/{id}/:
     get:
@@ -281,8 +292,8 @@ paths:
           description: ''
     post:
       operationId: v1_tutores_create
-      description: Qualquer pessoa pode se cadastrar como tutor. Envia todos os dados
-        do user caso queira criar um, ou apenas o user_id caso já exista.
+      description: Apenas o veterinário pode cadastar um novo tutor. Envia todos os
+        dados do user caso queira criar um, ou apenas o user_id caso já exista.
       summary: Cadastrar novo tutor
       tags:
       - tutores
