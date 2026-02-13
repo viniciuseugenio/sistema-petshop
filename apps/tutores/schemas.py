@@ -13,7 +13,7 @@ class TutorSchema:
 
     create = extend_schema(
         summary="Cadastrar novo tutor",
-        description="Qualquer pessoa pode se cadastrar como tutor. Envia todos os dados do user caso queira criar um, ou apenas o user_id caso já exista.",
+        description="Apenas o veterinário pode cadastar um novo tutor. Envia todos os dados do user caso queira criar um, ou apenas o user_id caso já exista.",
         request=serializers.TutorCreateSerializer,
         responses={201: serializers.TutorSerializer},
         examples=[create_user("tutor"), associate_with_user("tutor")],
