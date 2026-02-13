@@ -1,5 +1,4 @@
 from drf_spectacular.utils import (
-    OpenApiParameter,
     extend_schema,
     extend_schema_view,
 )
@@ -36,8 +35,7 @@ class PetViewSet(ModelViewSet):
         if tutor_id:
             queryset = queryset.filter(tutor__id=tutor_id)
 
-        is_vet = verify_group(self.request.user, "veterinarios")
-        if is_vet:
+        if verify_group(self.request.user, "veterinarios"):
             return queryset
 
         tutor = Tutor.objects.get(user=self.request.user)

@@ -22,9 +22,8 @@ class IsVeterinarioOrTutor(AdminBypassPermission):
         if self._is_admin(request.user):
             return True
 
-        is_veterinario = verify_group(request.user, "veterinarios")
-        if is_veterinario:
-            return is_veterinario
+        if verify_group(request.user, "veterinarios"):
+            return True
 
         is_tutor = Tutor.objects.filter(user=request.user).exists()
         return is_tutor
@@ -33,9 +32,8 @@ class IsVeterinarioOrTutor(AdminBypassPermission):
         if self._is_admin(request.user):
             return True
 
-        is_veterinario = verify_group(request.user, "veterinarios")
-        if is_veterinario:
-            return is_veterinario
+        if verify_group(request.user, "veterinarios"):
+            return True
 
         try:
             tutor = Tutor.objects.get(user=request.user)
@@ -51,8 +49,7 @@ class IsVetOrTutorHimself(AdminBypassPermission):
         if self._is_admin(request.user):
             return True
 
-        is_vet = verify_group(request.user, "veterinarios")
-        if is_vet:
+        if verify_group(request.user, "veterinarios"):
             return True
 
         tutor = Tutor.objects.get(user=request.user)
