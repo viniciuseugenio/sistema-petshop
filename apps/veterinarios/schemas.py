@@ -1,6 +1,10 @@
 from drf_spectacular.utils import OpenApiExample, extend_schema
 from . import serializers
-from apps.schemas_utils import create_user, associate_with_user
+from apps.schemas_utils import (
+    GENERIC_VALIDATION_ERROR_RESPONSE,
+    create_user,
+    associate_with_user,
+)
 
 
 class VeterinarioSchema:
@@ -14,7 +18,10 @@ class VeterinarioSchema:
         summary="Cadastrar novo veterinário",
         description="Requer permissão de administrador. Envia todos os dados do user caso queira criar um, ou apenas o user_id caso já exista.",
         request=serializers.VeterinarioCreateSerializer,
-        responses=serializers.VeterinarioSerializer,
+        responses={
+            201: serializers.VeterinarioSerializer,
+            400: GENERIC_VALIDATION_ERROR_RESPONSE,
+        },
         examples=[create_user("veterinário"), associate_with_user("veterinário")],
     )
 
@@ -27,13 +34,19 @@ class VeterinarioSchema:
     update = extend_schema(
         summary="Atualizar veterinário (completo)",
         description="O usuário deve ser o próprio veterinário.",
-        responses=serializers.VeterinarioSerializer,
+        responses={
+            200: serializers.VeterinarioSerializer,
+            400: GENERIC_VALIDATION_ERROR_RESPONSE,
+        },
     )
 
     partial_update = extend_schema(
         summary="Atualizar veterinário (parcial)",
         description="O usuário deve ser o próprio veterinário.",
-        responses=serializers.VeterinarioSerializer,
+        responses={
+            200: serializers.VeterinarioSerializer,
+            400: GENERIC_VALIDATION_ERROR_RESPONSE,
+        },
     )
 
     destroy = extend_schema(

@@ -1,4 +1,4 @@
-from drf_spectacular.utils import OpenApiExample
+from drf_spectacular.utils import OpenApiExample, OpenApiResponse
 
 
 def create_user(userType):
@@ -27,3 +27,19 @@ def associate_with_user(userType):
         },
         request_only=True,
     )
+
+
+GENERIC_VALIDATION_ERROR_RESPONSE = OpenApiResponse(
+    response={
+        "type": "object",
+        "additionalProperties": {
+            "type": "array",
+            "items": {"type": "string"},
+        },
+        "example": {
+            "field_name": ["Erro 1", "Erro 2"],
+            "another_field": ["Outro erro"],
+        },
+    },
+    description="Erro de validação. Retorna um objeto onde cada chave é o nome do campo e o valor é uma lista de mensagens de erro.",
+)
