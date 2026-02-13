@@ -1,5 +1,3 @@
-from django.contrib.auth.models import Group, User
-from django.db.models import Q
 from rest_framework import serializers
 
 from apps.accounts.serializers import UserBasicSerializer, UserSerializer
@@ -33,3 +31,6 @@ class VeterinarioCreateSerializer(PerfilCreateSerializer):
         user = self._get_or_create_user(validated_data, "veterinarios")
         veterinario = models.Veterinario.objects.create(user=user, celular=celular)
         return veterinario
+
+    def to_representation(self, instance):
+        return VeterinarioSerializer(instance).data

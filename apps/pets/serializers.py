@@ -41,3 +41,6 @@ class PetCreateSerializer(ModelSerializer):
     class Meta:
         model = Pet
         fields = ["id", "nome", "tutor", "especie", "raca", "data_nascimento"]
+
+    def to_representation(self, instance):
+        return PetDetailsSerializer(instance).data

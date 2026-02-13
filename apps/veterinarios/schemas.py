@@ -9,10 +9,12 @@ class VeterinarioSchema:
         description="Requer permissão de veterinário.",
         responses=serializers.VeterinarioSerializer(many=True),
     )
+
     create = extend_schema(
         summary="Cadastrar novo veterinário",
         description="Requer permissão de administrador. Envia todos os dados do user caso queira criar um, ou apenas o user_id caso já exista.",
         request=serializers.VeterinarioCreateSerializer,
+        responses=serializers.VeterinarioSerializer,
         examples=[create_user("veterinário"), associate_with_user("veterinário")],
     )
 

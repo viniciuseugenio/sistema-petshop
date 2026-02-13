@@ -30,3 +30,6 @@ class TutorCreateSerializer(PerfilCreateSerializer):
         user = self._get_or_create_user(validated_data, "tutores")
         tutor = models.Tutor.objects.create(user=user, celular=celular)
         return tutor
+
+    def to_representation(self, instance):
+        return TutorSerializer(instance).data

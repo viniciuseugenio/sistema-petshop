@@ -80,6 +80,7 @@ class RegistroVacinaSchema:
         summary="Registrar vacinação",
         description="Cria um novo registro de vacinação aplicada em um pet. Requer permissão de veterinário ou tutor.",
         request=serializers.RegistroVacinaCreateSerializer,
+        responses=serializers.RegistroVacinaDetailsSerializer,
     )
 
     retrieve = extend_schema(

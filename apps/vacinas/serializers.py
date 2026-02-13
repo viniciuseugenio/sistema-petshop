@@ -45,3 +45,6 @@ class RegistroVacinaCreateSerializer(ModelSerializer):
         model = RegistroVacina
         fields = ["id", "veterinario", "vacina", "pet", "observacoes", "data"]
         read_only_fields = ["id"]
+
+    def to_representation(self, instance):
+        return RegistroVacinaDetailsSerializer(instance).data

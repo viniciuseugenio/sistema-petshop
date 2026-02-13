@@ -24,7 +24,7 @@ class PetSchema:
             summary="Cadastrar novo pet",
             description="Requer permissão de veterinário.",
             request=serializers.PetCreateSerializer,
-            responses={201: serializers.PetCreateSerializer()},
+            responses={201: serializers.PetDetailsSerializer},
         ),
     )
     retrieve = (
