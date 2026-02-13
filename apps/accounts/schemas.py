@@ -48,7 +48,7 @@ class LogoutSchema:
     responses = {
         200: OpenApiResponse(
             response=inline_serializer(
-                name="Deslogado com sucesso",
+                name="Sucesso",
                 fields={"detail": serializers.CharField()},
             )
         )
