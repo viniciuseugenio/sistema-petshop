@@ -158,6 +158,7 @@ SPECTACULAR_SETTINGS = {
     "DESCRIPTION": "API RESTful feita com Django REST Framework para gerenciamento de vacinas de pets.",
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
+    "SERVERS": [{"url": "http://localhost:8000", "description": "Servidor local"}],
     "TAGS": [
         {"name": "accounts", "description": "Gerenciamento de usuários e autenticação"},
         {"name": "veterinarios", "description": "Cadastro e gestão de veterinários"},
