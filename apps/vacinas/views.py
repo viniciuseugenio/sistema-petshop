@@ -15,7 +15,14 @@ from .serializers import (
 )
 
 
-@extend_schema_view(**VacinaSchema.__dict__)
+@extend_schema_view(
+    list=VacinaSchema.list,
+    create=VacinaSchema.create,
+    retrieve=VacinaSchema.retrieve,
+    update=VacinaSchema.update,
+    partial_update=VacinaSchema.partial_update,
+    destroy=VacinaSchema.destroy,
+)
 @extend_schema(tags=["vacinas"])
 class VacinaViewSet(ModelViewSet):
     queryset = Vacina.objects.all()
@@ -23,7 +30,14 @@ class VacinaViewSet(ModelViewSet):
     permission_classes = [IsAuthenticated, IsVeterinario]
 
 
-@extend_schema_view(**RegistroVacinaSchema.__dict__)
+@extend_schema_view(
+    list=RegistroVacinaSchema.list,
+    create=RegistroVacinaSchema.create,
+    retrieve=RegistroVacinaSchema.retrieve,
+    update=RegistroVacinaSchema.update,
+    partial_update=RegistroVacinaSchema.partial_update,
+    destroy=RegistroVacinaSchema.destroy,
+)
 @extend_schema(tags=["registros"])
 class RegistroVacinaViewSet(ModelViewSet):
     queryset = RegistroVacina.objects.select_related(

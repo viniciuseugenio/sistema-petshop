@@ -14,7 +14,14 @@ from . import serializers
 from .models import Pet
 
 
-@extend_schema_view(**PetSchema.__dict__)
+@extend_schema_view(
+    list=PetSchema.list,
+    create=PetSchema.create,
+    retrieve=PetSchema.retrieve,
+    update=PetSchema.update,
+    partial_update=PetSchema.partial_update,
+    destroy=PetSchema.destroy,
+)
 @extend_schema(tags=["pets"])
 class PetViewSet(ModelViewSet):
     queryset = Pet.objects.select_related("tutor", "tutor__user")

@@ -8,7 +8,14 @@ from apps.veterinarios.schemas import VeterinarioSchema
 from . import models, serializers
 
 
-@extend_schema_view(**VeterinarioSchema.__dict__)
+@extend_schema_view(
+    list=VeterinarioSchema.list,
+    create=VeterinarioSchema.create,
+    retrieve=VeterinarioSchema.retrieve,
+    update=VeterinarioSchema.update,
+    partial_update=VeterinarioSchema.partial_update,
+    destroy=VeterinarioSchema.destroy,
+)
 @extend_schema(tags=["veterinarios"])
 class VeterinarioViewSet(ModelViewSet):
     queryset = models.Veterinario.objects.select_related("user")

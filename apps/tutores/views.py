@@ -12,7 +12,14 @@ from . import serializers
 from .models import Tutor
 
 
-@extend_schema_view(**TutorSchema.__dict__)
+@extend_schema_view(
+    list=TutorSchema.list,
+    create=TutorSchema.create,
+    retrieve=TutorSchema.retrieve,
+    update=TutorSchema.update,
+    partial_update=TutorSchema.partial_update,
+    destroy=TutorSchema.destroy,
+)
 @extend_schema(tags=["tutores"])
 class TutorViewSet(ModelViewSet):
     queryset = Tutor.objects.select_related("user")
