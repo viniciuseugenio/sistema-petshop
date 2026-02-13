@@ -1150,11 +1150,6 @@ components:
     PatchedTutor:
       type: object
       properties:
-        id:
-          type: integer
-          readOnly: true
-        user:
-          $ref: '#/components/schemas/User'
         celular:
           type: string
           maxLength: 20
@@ -1170,13 +1165,6 @@ components:
     PatchedVeterinario:
       type: object
       properties:
-        id:
-          type: integer
-          readOnly: true
-        user:
-          allOf:
-          - $ref: '#/components/schemas/User'
-          readOnly: true
         celular:
           type: string
           maxLength: 20
@@ -1375,18 +1363,11 @@ components:
     Tutor:
       type: object
       properties:
-        id:
-          type: integer
-          readOnly: true
-        user:
-          $ref: '#/components/schemas/User'
         celular:
           type: string
           maxLength: 20
       required:
       - celular
-      - id
-      - user
     TutorBasic:
       type: object
       properties:
@@ -1427,35 +1408,6 @@ components:
           maxLength: 20
       required:
       - celular
-    User:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        username:
-          type: string
-          title: Usuário
-          description: Obrigatório. 150 caracteres ou menos. Letras, números e @/./+/-/_
-            apenas.
-          pattern: ^[\w.@+-]+$
-          maxLength: 150
-        first_name:
-          type: string
-          title: Primeiro nome
-          maxLength: 150
-        last_name:
-          type: string
-          title: Último nome
-          maxLength: 150
-        email:
-          type: string
-          format: email
-          title: Endereço de email
-          maxLength: 254
-      required:
-      - id
-      - username
     UserBasic:
       type: object
       properties:
@@ -1522,20 +1474,11 @@ components:
     Veterinario:
       type: object
       properties:
-        id:
-          type: integer
-          readOnly: true
-        user:
-          allOf:
-          - $ref: '#/components/schemas/User'
-          readOnly: true
         celular:
           type: string
           maxLength: 20
       required:
       - celular
-      - id
-      - user
     VeterinarioBasic:
       type: object
       properties:

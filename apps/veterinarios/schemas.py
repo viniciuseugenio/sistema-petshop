@@ -34,6 +34,7 @@ class VeterinarioSchema:
     update = extend_schema(
         summary="Atualizar veterinário (completo)",
         description="O usuário deve ser o próprio veterinário.",
+        request=serializers.VeterinarioSerializer,
         responses={
             200: serializers.VeterinarioSerializer,
             400: GENERIC_VALIDATION_ERROR_RESPONSE,
@@ -43,6 +44,7 @@ class VeterinarioSchema:
     partial_update = extend_schema(
         summary="Atualizar veterinário (parcial)",
         description="O usuário deve ser o próprio veterinário.",
+        request=serializers.VeterinarioSerializer,
         responses={
             200: serializers.VeterinarioSerializer,
             400: GENERIC_VALIDATION_ERROR_RESPONSE,

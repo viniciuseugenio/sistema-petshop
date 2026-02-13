@@ -1,4 +1,4 @@
-from drf_spectacular.utils import OpenApiExample, extend_schema
+from drf_spectacular.utils import extend_schema
 
 from apps.schemas_utils import (
     GENERIC_VALIDATION_ERROR_RESPONSE,
