@@ -79,28 +79,25 @@ class RegistroVacinaSchema:
     create = extend_schema(
         summary="Registrar vacinação",
         description="Cria um novo registro de vacinação aplicada em um pet. Requer permissão de veterinário ou tutor.",
-        request=serializers.RegistroVacinaDetailsSerializer,
-        responses={201: serializers.RegistroVacinaDetailsSerializer},
+        request=serializers.RegistroVacinaCreateSerializer,
     )
 
     retrieve = extend_schema(
         summary="Obter detalhes do registro de vacinação",
         description="Retorna informações detalhadas de um registro de vacinação específico.",
-        responses={200: serializers.RegistroVacinaDetailsSerializer},
+        request=serializers.RegistroVacinaCreateSerializer,
     )
 
     update = extend_schema(
         summary="Atualizar registro de vacinação (completo)",
         description="Requer permissão de veterinário ou tutor.",
-        request=serializers.RegistroVacinaDetailsSerializer,
-        responses={200: serializers.RegistroVacinaDetailsSerializer},
+        request=serializers.RegistroVacinaCreateSerializer,
     )
 
     partial_update = extend_schema(
         summary="Atualizar registro de vacinação (parcial)",
         description="Requer permissão de veterinário ou tutor.",
-        request=serializers.RegistroVacinaDetailsSerializer,
-        responses={200: serializers.RegistroVacinaDetailsSerializer},
+        request=serializers.RegistroVacinaCreateSerializer,
     )
 
     destroy = extend_schema(

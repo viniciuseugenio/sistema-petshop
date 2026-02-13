@@ -162,7 +162,8 @@ paths:
       - in: path
         name: id
         schema:
-          type: string
+          type: integer
+        description: Um valor inteiro único que identifica este pet.
         required: true
       tags:
       - pets
@@ -183,7 +184,8 @@ paths:
       - in: path
         name: id
         schema:
-          type: string
+          type: integer
+        description: Um valor inteiro único que identifica este pet.
         required: true
       tags:
       - pets
@@ -216,7 +218,8 @@ paths:
       - in: path
         name: id
         schema:
-          type: string
+          type: integer
+        description: Um valor inteiro único que identifica este pet.
         required: true
       tags:
       - pets
@@ -248,7 +251,8 @@ paths:
       - in: path
         name: id
         schema:
-          type: string
+          type: integer
+        description: Um valor inteiro único que identifica este pet.
         required: true
       tags:
       - pets
@@ -454,13 +458,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/RegistroVacinaDetails'
+              $ref: '#/components/schemas/RegistroVacinaCreate'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/RegistroVacinaDetails'
+              $ref: '#/components/schemas/RegistroVacinaCreate'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/RegistroVacinaDetails'
+              $ref: '#/components/schemas/RegistroVacinaCreate'
         required: true
       security:
       - cookieAuth: []
@@ -469,7 +473,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RegistroVacinaDetails'
+                $ref: '#/components/schemas/RegistroVacinaCreate'
           description: ''
   /api/v1/vacinas/registros/{id}/:
     get:
@@ -480,7 +484,8 @@ paths:
       - in: path
         name: id
         schema:
-          type: string
+          type: integer
+        description: Um valor inteiro único que identifica este registro vacina.
         required: true
       tags:
       - registros
@@ -501,7 +506,8 @@ paths:
       - in: path
         name: id
         schema:
-          type: string
+          type: integer
+        description: Um valor inteiro único que identifica este registro vacina.
         required: true
       tags:
       - registros
@@ -509,13 +515,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/RegistroVacinaDetails'
+              $ref: '#/components/schemas/RegistroVacinaCreate'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/RegistroVacinaDetails'
+              $ref: '#/components/schemas/RegistroVacinaCreate'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/RegistroVacinaDetails'
+              $ref: '#/components/schemas/RegistroVacinaCreate'
         required: true
       security:
       - cookieAuth: []
@@ -524,7 +530,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RegistroVacinaDetails'
+                $ref: '#/components/schemas/RegistroVacinaCreate'
           description: ''
     patch:
       operationId: v1_vacinas_registros_partial_update
@@ -534,7 +540,8 @@ paths:
       - in: path
         name: id
         schema:
-          type: string
+          type: integer
+        description: Um valor inteiro único que identifica este registro vacina.
         required: true
       tags:
       - registros
@@ -542,13 +549,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchedRegistroVacinaDetails'
+              $ref: '#/components/schemas/PatchedRegistroVacinaCreate'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PatchedRegistroVacinaDetails'
+              $ref: '#/components/schemas/PatchedRegistroVacinaCreate'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PatchedRegistroVacinaDetails'
+              $ref: '#/components/schemas/PatchedRegistroVacinaCreate'
       security:
       - cookieAuth: []
       responses:
@@ -556,7 +563,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RegistroVacinaDetails'
+                $ref: '#/components/schemas/RegistroVacinaCreate'
           description: ''
     delete:
       operationId: v1_vacinas_registros_destroy
@@ -566,7 +573,8 @@ paths:
       - in: path
         name: id
         schema:
-          type: string
+          type: integer
+        description: Um valor inteiro único que identifica este registro vacina.
         required: true
       tags:
       - registros
@@ -933,18 +941,18 @@ components:
           type: string
           format: date
           nullable: true
-    PatchedRegistroVacinaDetails:
+    PatchedRegistroVacinaCreate:
       type: object
       properties:
         id:
           type: integer
           readOnly: true
         veterinario:
-          $ref: '#/components/schemas/VeterinarioBasic'
+          type: integer
         vacina:
-          $ref: '#/components/schemas/Vacina'
+          type: integer
         pet:
-          $ref: '#/components/schemas/PetSemTutor'
+          type: integer
         observacoes:
           type: string
         data:
@@ -1104,6 +1112,28 @@ components:
       - especie
       - id
       - nome
+    RegistroVacinaCreate:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        veterinario:
+          type: integer
+        vacina:
+          type: integer
+        pet:
+          type: integer
+        observacoes:
+          type: string
+        data:
+          type: string
+          format: date
+      required:
+      - id
+      - pet
+      - vacina
+      - veterinario
     RegistroVacinaDetails:
       type: object
       properties:
