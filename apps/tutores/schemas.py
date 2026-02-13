@@ -1,4 +1,6 @@
-from drf_spectacular.utils import extend_schema
+from drf_spectacular.utils import OpenApiExample, extend_schema
+
+from apps.schemas_utils import associate_with_user, create_user
 from . import serializers
 
 
@@ -14,6 +16,7 @@ class TutorSchema:
         description="Qualquer pessoa pode se cadastrar como tutor. Envia todos os dados do user caso queira criar um, ou apenas o user_id caso já exista.",
         request=serializers.TutorCreateSerializer,
         responses={201: serializers.TutorSerializer},
+        examples=[create_user("tutor"), associate_with_user("tutor")],
     )
 
     retrieve = extend_schema(

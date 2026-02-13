@@ -1,5 +1,6 @@
-from drf_spectacular.utils import extend_schema
+from drf_spectacular.utils import OpenApiExample, extend_schema
 from . import serializers
+from apps.schemas_utils import create_user, associate_with_user
 
 
 class VeterinarioSchema:
@@ -12,6 +13,7 @@ class VeterinarioSchema:
         summary="Cadastrar novo veterinário",
         description="Requer permissão de administrador. Envia todos os dados do user caso queira criar um, ou apenas o user_id caso já exista.",
         request=serializers.VeterinarioCreateSerializer,
+        examples=[create_user("veterinário"), associate_with_user("veterinário")],
     )
 
     retrieve = extend_schema(
