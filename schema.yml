@@ -291,6 +291,23 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/TutorCreate'
+            examples:
+              CriandoNovoUsuário:
+                value:
+                  username: maria
+                  first_name: Maria
+                  last_name: Santos
+                  email: maria@gmail.com
+                  password: senha123
+                  celular: '12345958901'
+                summary: Criando novo usuário
+                description: Cria um novo usuário junto com o tutor
+              UsandoUsuárioExistente:
+                value:
+                  user_id: 3
+                  celular: '12345958901'
+                summary: Usando usuário existente
+                description: Associa um usuário já existe como tutor
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/TutorCreate'
@@ -767,6 +784,23 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/VeterinarioCreate'
+            examples:
+              CriandoNovoUsuário:
+                value:
+                  username: maria
+                  first_name: Maria
+                  last_name: Santos
+                  email: maria@gmail.com
+                  password: senha123
+                  celular: '12345958901'
+                summary: Criando novo usuário
+                description: Cria um novo usuário junto com o veterinário
+              UsandoUsuárioExistente:
+                value:
+                  user_id: 3
+                  celular: '12345958901'
+                summary: Usando usuário existente
+                description: Associa um usuário já existe como veterinário
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/VeterinarioCreate'
@@ -1394,6 +1428,9 @@ components:
       name: access_token
       description: Autenticação via JWT armazenado em cookies HTTPOnly. Faça login
         em `/api/v1/token/` para obter os tokens automaticamente.
+servers:
+- url: http://localhost:8000
+  description: Servidor local
 tags:
 - name: accounts
   description: Gerenciamento de usuários e autenticação
