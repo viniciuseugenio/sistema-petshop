@@ -4,13 +4,24 @@ from apps.tutores.models import Tutor
 from apps.utils import verify_group
 
 
-class IsVeterinario(permissions.BasePermission):
+class AdminBypassPermission(permissions.BasePermission):
+    def _is_admin(self, user):
+        return user.is_staff or user.is_superuser
+
+
+class IsVeterinario(AdminBypassPermission):
     def has_permission(self, request, view):
+        if self._is_admin(request.user):
+            return True
+
         return verify_group(request.user, "veterinarios")
 
 
-class IsVeterinarioOrTutor(permissions.BasePermission):
+class IsVeterinarioOrTutor(AdminBypassPermission):
     def has_permission(self, request, view):
+        if self._is_admin(request.user):
+            return True
+
         is_veterinario = verify_group(request.user, "veterinarios")
         if is_veterinario:
             return is_veterinario
@@ -19,6 +30,9 @@ class IsVeterinarioOrTutor(permissions.BasePermission):
         return is_tutor
 
     def has_object_permission(self, request, view, obj):
+        if self._is_admin(request.user):
+            return True
+
         is_veterinario = verify_group(request.user, "veterinarios")
         if is_veterinario:
             return is_veterinario
@@ -32,8 +46,11 @@ class IsVeterinarioOrTutor(permissions.BasePermission):
         return is_tutor
 
 
-class IsVetOrTutorHimself(permissions.BasePermission):
+class IsVetOrTutorHimself(AdminBypassPermission):
     def has_object_permission(self, request, view, obj):
+        if self._is_admin(request.user):
+            return True
+
         is_vet = verify_group(request.user, "veterinarios")
         if is_vet:
             return True
@@ -42,9 +59,9 @@ class IsVetOrTutorHimself(permissions.BasePermission):
         return obj == tutor
 
 
-class IsVetHimself(permissions.BasePermission):
+class IsVetHimself(AdminBypassPermission):
     def has_object_permission(self, request, view, obj):
-        if not request.user.is_authenticated:
-            return False
+        if self._is_admin(request.user):
+            return True
 
         return obj.user == request.user
