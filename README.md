@@ -1,66 +1,127 @@
-# Sistema de Vacinas - Petshop
+# Sistema Petshop - API de Gerenciamento de Vacinas
 
-Uma API RESTful onde você pode gerenciar veterinários, tutores, pets e vacinas. A aplicação contem um sistema completo de autentição por meio de JWT tokens, que são armazenados por meio de HTTPOnly cookies. Além disso, a API tem endpoints para criação, listagem, deletaçao e atualização de todos os models, com sistema de permissões para acessá-las.
+API RESTful para gerenciamento completo de uma clínica veterinária, incluindo cadastro de veterinários, tutores, pets e controle de vacinação.
+
+## Funcionalidades
+
+- **Autenticação JWT**: Sistema completo com tokens armazenados em HTTPOnly cookies
+- **Gestão de Usuários**: Cadastro e autenticação de veterinários e tutores
+- **Cadastro de Pets**: Registro completo dos animais vinculados aos tutores
+- **Controle de Vacinas**: Histórico e registro de vacinação
+- **Permissões Granulares**: Diferentes níveis de acesso para veterinários e tutores
+- **Documentação Interativa**: Interface Swagger UI integrada
 
 ## Tecnologias utilizadas
-- Python 3.14 + Django REST Framework
-- djangorestframework-simple_jwt com views customizadas para armazenar os tokens em HTTPOnly cookies
-- Banco de dados nativo do Django, que é o SQLite
-- drf-spectacular para documentação da API
-- django-environ para manuseamento das variáveis de ambiente
-- django-debug-toolbar para visualizar quais queries precisam de otimização
 
-## Instruções para rodar na sua máquina
-1. Faça a clonagem do repositório
+- **Python 3.14** + **Django 6.0.2**
+- **Django REST Framework** - Construção da API
+- **SimpleJWT** - Autenticação com tokens JWT em HTTPOnly cookies
+- **SQLite** - Banco de dados
+- **drf-spectacular** - Documentação automática da API
+- **django-environ** - Gerenciamento de variáveis de ambiente
+- **django-debug-toolbar** - Monitoramento e otimização de queries
+
+## Instalação
+
+### Pré-requisitos
+- Python 3.12 ou superior
+- pip
+
+### Passo a passo
+
+1. Clone o repositório
    ```
-   git clone https://github.com/viniciuseugenio/sistema-petshop.git (ou utilize SSH)
+   git clone https://github.com/viniciuseugenio/sistema-petshop.git
    cd sistema-petshop
    ```
+
+2. Crie o ambiente virtual
    
-2. Crie e ative o ambiente virtual
-   
-   Para Linux:
+   Linux/Mac:
    ```
    python3 -m venv venv
    source venv/bin/activate
    ```
-   Para Windows:
+   
+   Windows:
    ```
    python -m venv venv
-   venv\Scripts\active
+   venv\Scripts\activate
    ```
-   
-4. Instale as dependências
+
+3. Instale as dependências
    ```
    pip install -r requirements.txt
    ```
-   
-5. Configure as variáveis de ambiente
-   - Copie o .env-example para um novo arquivo .env e insira os valores corretos.
 
-6. Rode as migrations
+4. Configure as variáveis de ambiente
+   ```
+   cp .env-example .env
+   ```
+   Edite o arquivo `.env` com suas configurações
+
+5. Execute as migrations
    ```
    python manage.py migrate
    ```
-   
-7. Crie o seu superuser
+
+6. Crie um superusuário
    ```
    python manage.py createsuperuser
    ```
-   
-8. E por fim, rode o servidor
+
+7. Inicie o servidor
    ```
    python manage.py runserver
    ```
 
-   Ao rodar o servidor, toda a documentação da API estará em /api/schema/swagger-ui/, ou, caso prefira, o arquivo `schema.yml` está no root do projeto e você pode usá-lo no seu aplicativo de preferência.
-   
+A API estará disponível em `http://localhost:8000`
 
-## Breve explicação de decisões técnicas
-- Para facilitar a leitura e visualização do código e das suas funcionalidades, resolvi separar as funcionalidades de pet, veterinário, tutor e vacinas em apps diferentes e colocá-los dentro de uma pasta `apps/` que os armazena, para que a base da pasta não fique muito poluida com as pastas dos apps. 
-- Para não ter muita complexidade neste projeto, optei por deixar o model de User como o padrão do Django, mas criar ambos os modelos de Veterinario e Tutor, que tem como campo OneToOne, o User. Os dois modelos tem apenas um campo adicional, que é o celular, mas poderiamos adicionar mais campos, como CPF, CRMV (específico do veterinário), endereço, e outros.
-- Para o sistema de autenticação, tenho como padrão em meus projetos utilizar JWT tokens que são armazenados em HTTPOnly cookies, pois essa configuração garante mais segurança ao website, evitando ataques como XSS.
-Criei diversas permissões customizadas, que podem ser vistas em `permissions.py`.
-- A maneira como as permissões estão estruturadas são baseadas na seguinte imaginação: Temos uma clínica veterinária, e o tutor tem acesso aos registros dos seus pets e das vacinas que foram aplicadas neles. Ele tem permissão somente para visualizar, mas não editar dados. O veterinário fica responsável pela criação do pet, do tutor, e de fazer os registros de vacina.
-- Para otimizar as queries, utilizei sempre o `.select_related()`, já que as relações são de um para um, sempre.
-- A documentação da API tem todos os examples para que não haja confusão na hora de testar os endpoints. Apenas importe o .yml para o Postman, por exemplo, e o esqueleto do body está preenchido. No Swagger UI, as endpoints possuem uma descrição para facilitar a compreensão de quem está vendo. Também configurei uma extension para que fique explicito que a autenticação é por meio de HTTPOnly cookies.
+## Documentação
+
+Para acessar a documentação completa e interativa da API, acesse o endpoint:
+- **Swagger UI**: `http://localhost:8000/api/schema/swagger-ui/`
+- **Arquivo OpenAPI**: `schema.yml` (raiz do projeto)
+
+## Estrutura do Projeto
+
+```
+sistema-petshop/
+├── apps/
+│   ├── accounts/       # Autenticação e gerenciamento de usuários
+│   ├── veterinarios/   # Gestão de veterinários
+│   ├── tutores/        # Gestão de tutores
+│   ├── pets/           # Cadastro de animais
+│   ├── vacinas/        # Controle de vacinação
+│   ├── permissions.py  # Permissões customizadas
+│   └── utils.py        # Utilitários compartilhados
+├── CORE/               # Configurações do Django
+├── manage.py
+├── requirements.txt
+└── schema.yml
+```
+
+## Sistema de Permissões
+
+A API implementa um modelo baseado em roles:
+
+- **Tutores**: Podem visualizar dados dos próprios pets e histórico de vacinas (somente leitura)
+- **Veterinários**: Podem criar e gerenciar pets, tutores e registros de vacinação
+- **Admin**: Acesso total ao sistema
+
+## Decisões Técnicas
+
+### Arquitetura
+- Separação em apps Django para melhor organização e manutenibilidade
+- Uso de `select_related()` para otimização de queries
+- Models Tutor e Veterinário com relação OneToOne ao User padrão do Django
+
+### Segurança
+- Tokens JWT armazenados em HTTPOnly cookies para proteção contra ataques como XSS
+- Permissões customizadas para controle granular de acesso
+- Variáveis de ambiente para dados sensíveis
+
+### Documentação
+- Exemplos completos em todos os endpoints
+- Schemas OpenAPI para importação em ferramentas como Postman
+- Descrições detalhadas na interface Swagger
