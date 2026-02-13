@@ -26,13 +26,13 @@ class VacinaViewSet(ModelViewSet):
 @extend_schema_view(**RegistroVacinaSchema.__dict__)
 @extend_schema(tags=["registros"])
 class RegistroVacinaViewSet(ModelViewSet):
+    queryset = RegistroVacina.objects.select_related(
+        "veterinario__user", "vacina", "pet__tutor__user"
+    )
     permission_classes = [IsAuthenticated, IsVeterinarioOrTutor]
 
     def get_queryset(self):
-        queryset = RegistroVacina.objects.select_related(
-            "veterinario__user", "vacina", "pet__tutor__user"
-        )
-
+        queryset = super().get_queryset()
         pet_id = self.request.query_params.get("pet")
         veterinario_id = self.request.query_params.get("veterinario")
 

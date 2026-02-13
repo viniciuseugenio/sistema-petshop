@@ -18,6 +18,8 @@ from .models import Pet
 @extend_schema_view(**PetSchema.__dict__)
 @extend_schema(tags=["pets"])
 class PetViewSet(ModelViewSet):
+    queryset = Pet.objects.select_related("tutor", "tutor__user")
+
     def get_permissions(self):
         if self.action == "destroy":
             return [IsAuthenticated(), IsAdminUser()]
@@ -28,7 +30,7 @@ class PetViewSet(ModelViewSet):
         return [IsAuthenticated(), IsVeterinarioOrTutor()]
 
     def get_queryset(self):
-        queryset = Pet.objects.select_related("tutor", "tutor__user")
+        queryset = super().get_queryset()
         tutor_id = self.request.query_params.get("tutor")
 
         if tutor_id:
