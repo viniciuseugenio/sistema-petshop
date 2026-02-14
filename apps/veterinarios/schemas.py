@@ -8,10 +8,12 @@ from apps.schemas_utils import (
 
 
 class VeterinarioSchema:
+    additional_fields = {"crmv": "123456"}
+
     list = extend_schema(
         summary="Listagem de veterinários",
         description="Requer permissão de veterinário.",
-        responses=serializers.VeterinarioSerializer(many=True),
+        responses=serializers.VeterinarioBasicSerializer(many=True),
     )
 
     create = extend_schema(
@@ -22,7 +24,10 @@ class VeterinarioSchema:
             201: serializers.VeterinarioSerializer,
             400: GENERIC_VALIDATION_ERROR_RESPONSE,
         },
-        examples=[create_user("veterinário"), associate_with_user("veterinário")],
+        examples=[
+            create_user("veterinário", additional_fields),
+            associate_with_user("veterinário", additional_fields),
+        ],
     )
 
     retrieve = extend_schema(

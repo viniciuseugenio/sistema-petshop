@@ -1,10 +1,10 @@
 from drf_spectacular.utils import OpenApiExample, OpenApiResponse
 
 
-def create_user(userType):
+def create_user(user_type, additional_fields={}):
     return OpenApiExample(
         "Criando novo usuário",
-        description=f"Cria um novo usuário junto com o {userType}",
+        description=f"Cria um novo usuário junto com o {user_type}",
         value={
             "username": "maria",
             "first_name": "Maria",
@@ -12,18 +12,20 @@ def create_user(userType):
             "email": "maria@gmail.com",
             "password": "senha123",
             "celular": "12345958901",
+            **additional_fields,
         },
         request_only=True,
     )
 
 
-def associate_with_user(userType):
+def associate_with_user(user_type, additional_fields={}):
     return OpenApiExample(
         "Usando usuário existente",
-        description=f"Associa um usuário já existe como {userType}",
+        description=f"Associa um usuário já existe como {user_type}",
         value={
             "user_id": 3,
             "celular": "12345958901",
+            **additional_fields,
         },
         request_only=True,
     )
