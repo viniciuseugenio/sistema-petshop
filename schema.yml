@@ -1647,19 +1647,7 @@ components:
           allOf:
           - $ref: '#/components/schemas/UserBasic'
           readOnly: true
-        celular:
-          type: string
-          maxLength: 20
-        crmv:
-          type: string
-          nullable: true
-          maxLength: 20
-        cpf:
-          type: string
-          nullable: true
-          maxLength: 11
       required:
-      - celular
       - id
       - user
     VeterinarioCreateRequest:

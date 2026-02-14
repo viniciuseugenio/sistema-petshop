@@ -6,15 +6,12 @@ from apps.serializers_utils import PerfilCreateSerializer
 from . import models
 
 
-LIST_FIELDS = ["id", "user", "celular", "crmv", "cpf"]
-
-
 class VeterinarioSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
 
     class Meta:
         model = models.Veterinario
-        fields = LIST_FIELDS
+        fields = ["id", "user", "celular", "crmv", "cpf"]
 
 
 class VeterinarioBasicSerializer(serializers.ModelSerializer):
@@ -22,7 +19,7 @@ class VeterinarioBasicSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Veterinario
-        fields = LIST_FIELDS
+        fields = ["id", "user"]
 
 
 class VeterinarioCreateSerializer(PerfilCreateSerializer):
