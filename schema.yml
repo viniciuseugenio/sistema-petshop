@@ -41,7 +41,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Deslogado com sucesso'
+                $ref: '#/components/schemas/Sucesso'
           description: ''
   /api/v1/accounts/token/:
     post:
@@ -77,7 +77,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Falha no Login'
+                $ref: '#/components/schemas/FalhaLogin'
           description: Falha na autenticação
   /api/v1/accounts/token/refresh/:
     post:
@@ -354,12 +354,14 @@ paths:
                   email: maria@gmail.com
                   password: senha123
                   celular: '12345958901'
+                  cpf: '78570651023'
                 summary: Criando novo usuário
                 description: Cria um novo usuário junto com o tutor
               UsandoUsuárioExistente:
                 value:
                   user_id: 3
                   celular: '12345958901'
+                  cpf: '78570651023'
                 summary: Usando usuário existente
                 description: Associa um usuário já existe como tutor
           application/x-www-form-urlencoded:
@@ -876,7 +878,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Veterinario'
+                  $ref: '#/components/schemas/VeterinarioBasic'
           description: ''
     post:
       operationId: v1_veterinarios_create
@@ -899,12 +901,16 @@ paths:
                   email: maria@gmail.com
                   password: senha123
                   celular: '12345958901'
+                  cpf: '78570651023'
+                  crmv: '123456'
                 summary: Criando novo usuário
                 description: Cria um novo usuário junto com o veterinário
               UsandoUsuárioExistente:
                 value:
                   user_id: 3
                   celular: '12345958901'
+                  cpf: '78570651023'
+                  crmv: '123456'
                 summary: Usando usuário existente
                 description: Associa um usuário já existe como veterinário
           application/x-www-form-urlencoded:
@@ -1084,14 +1090,7 @@ paths:
           description: No response body
 components:
   schemas:
-    Deslogado com sucesso:
-      type: object
-      properties:
-        detail:
-          type: string
-      required:
-      - detail
-    Falha no Login:
+    FalhaLogin:
       type: object
       properties:
         detail:
@@ -1168,6 +1167,14 @@ components:
         celular:
           type: string
           maxLength: 20
+        crmv:
+          type: string
+          nullable: true
+          maxLength: 20
+        cpf:
+          type: string
+          nullable: true
+          maxLength: 11
     PetBasic:
       type: object
       properties:
@@ -1353,6 +1360,13 @@ components:
       - pet
       - vacina
       - veterinario
+    Sucesso:
+      type: object
+      properties:
+        detail:
+          type: string
+      required:
+      - detail
     TokenRefreshError:
       type: object
       properties:
@@ -1403,11 +1417,15 @@ components:
           maxLength: 128
         user_id:
           type: integer
+        cpf:
+          type: string
+          maxLength: 11
         celular:
           type: string
           maxLength: 20
       required:
       - celular
+      - cpf
     UserBasic:
       type: object
       properties:
@@ -1477,6 +1495,14 @@ components:
         celular:
           type: string
           maxLength: 20
+        crmv:
+          type: string
+          nullable: true
+          maxLength: 20
+        cpf:
+          type: string
+          nullable: true
+          maxLength: 11
       required:
       - celular
     VeterinarioBasic:
@@ -1492,6 +1518,14 @@ components:
         celular:
           type: string
           maxLength: 20
+        crmv:
+          type: string
+          nullable: true
+          maxLength: 20
+        cpf:
+          type: string
+          nullable: true
+          maxLength: 11
       required:
       - celular
       - id
@@ -1516,11 +1550,19 @@ components:
           maxLength: 128
         user_id:
           type: integer
+        cpf:
+          type: string
+          maxLength: 11
         celular:
+          type: string
+          maxLength: 20
+        crmv:
           type: string
           maxLength: 20
       required:
       - celular
+      - cpf
+      - crmv
   securitySchemes:
     cookieAuth:
       type: apiKey
