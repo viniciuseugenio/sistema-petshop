@@ -31,6 +31,11 @@ class VeterinarioCreateSerializer(PerfilCreateSerializer):
     def validate(self, data):
         return self._generic_validate(data, "veterinarios")
 
+    def validate_cpf(self, value):
+        if models.Veterinario.objects.filter(cpf=value).exists():
+            raise serializers.ValidationError("Um tutor com este CPF já existe.")
+        return value
+
     def create(self, validated_data):
         celular = validated_data.pop("celular")
         crmv = validated_data.pop("crmv")

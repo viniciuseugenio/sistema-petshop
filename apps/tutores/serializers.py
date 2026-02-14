@@ -26,6 +26,11 @@ class TutorCreateSerializer(PerfilCreateSerializer):
     def validate(self, data):
         return self._generic_validate(data, "tutores")
 
+    def validate_cpf(self, value):
+        if models.Tutor.objects.filter(cpf=value).exists():
+            raise serializers.ValidationError("Um tutor com este CPF já existe.")
+        return value
+
     def create(self, validated_data):
         celular = validated_data.pop("celular")
         cpf = validated_data.pop("cpf")
