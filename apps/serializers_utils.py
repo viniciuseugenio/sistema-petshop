@@ -12,6 +12,7 @@ class PerfilCreateSerializer(serializers.Serializer):
     password = serializers.CharField(max_length=128, required=False)
 
     user_id = serializers.IntegerField(required=False)
+    cpf = serializers.CharField(max_length=11)
     celular = serializers.CharField(max_length=20)
 
     def _generic_validate(self, data, group_name):

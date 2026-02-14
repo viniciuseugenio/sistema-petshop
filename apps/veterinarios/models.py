@@ -8,6 +8,7 @@ class Veterinario(models.Model):
     )
     celular = models.CharField(max_length=20)
     crmv = models.CharField(max_length=20, unique=True, null=True)
+    cpf = models.CharField(max_length=11, unique=True, null=True)
 
     def __str__(self):
         return f"Veterinário {self.user.username}"

@@ -12,6 +12,7 @@ def create_user(user_type, additional_fields={}):
             "email": "maria@gmail.com",
             "password": "senha123",
             "celular": "12345958901",
+            "cpf": "78570651023",
             **additional_fields,
         },
         request_only=True,
@@ -25,6 +26,7 @@ def associate_with_user(user_type, additional_fields={}):
         value={
             "user_id": 3,
             "celular": "12345958901",
+            "cpf": "78570651023",
             **additional_fields,
         },
         request_only=True,
