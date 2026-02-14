@@ -28,8 +28,10 @@ class TutorCreateSerializer(PerfilCreateSerializer):
 
     def create(self, validated_data):
         celular = validated_data.pop("celular")
+        cpf = validated_data.pop("cpf")
+
         user = self._get_or_create_user(validated_data, "tutores")
-        tutor = models.Tutor.objects.create(user=user, celular=celular)
+        tutor = models.Tutor.objects.create(user=user, celular=celular, cpf=cpf)
         return tutor
 
     def to_representation(self, instance):

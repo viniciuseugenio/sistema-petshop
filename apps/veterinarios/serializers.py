@@ -34,10 +34,11 @@ class VeterinarioCreateSerializer(PerfilCreateSerializer):
     def create(self, validated_data):
         celular = validated_data.pop("celular")
         crmv = validated_data.pop("crmv")
+        cpf = validated_data.pop("cpf")
 
         user = self._get_or_create_user(validated_data, "veterinarios")
         veterinario = models.Veterinario.objects.create(
-            user=user, celular=celular, crmv=crmv
+            user=user, celular=celular, crmv=crmv, cpf=cpf
         )
         return veterinario
 
