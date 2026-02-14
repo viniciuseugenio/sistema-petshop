@@ -14,5 +14,8 @@ class Pet(models.Model):
         default="N",
     )
 
+    class Meta:
+        ordering = ["-id"]
+
     def __str__(self):
         return f"{self.nome} de {self.tutor}"

@@ -7,6 +7,9 @@ from datetime import date
 class Vacina(models.Model):
     nome = models.CharField(max_length=120)
 
+    class Meta:
+        ordering = ["-id"]
+
     def __str__(self):
         return self.nome
 
@@ -23,3 +26,6 @@ class RegistroVacina(models.Model):
     pet = models.ForeignKey(Pet, on_delete=models.CASCADE, related_name="vacinas")
     observacoes = models.TextField(blank=True)
     data = models.DateField(default=date.today)
+
+    class Meta:
+        ordering = ["-id"]

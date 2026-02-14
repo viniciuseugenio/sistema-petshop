@@ -11,5 +11,6 @@ class Tutor(models.Model):
         return f"Tutor {self.user.username}"
 
     class Meta:
+        ordering = ["-id"]
         verbose_name = "Tutor"
         verbose_name_plural = "Tutores"
