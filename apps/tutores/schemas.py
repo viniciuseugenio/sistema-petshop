@@ -12,7 +12,7 @@ class TutorSchema:
     list = extend_schema(
         summary="Listagem de tutores",
         description="Requer permissão de veterinário.",
-        responses=serializers.TutorSerializer(many=True),
+        responses=serializers.TutorBasicSerializer(many=True),
     )
 
     create = extend_schema(

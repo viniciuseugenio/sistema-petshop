@@ -3,8 +3,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 
 from apps.permissions import (
-    IsVetOrTutorHimself,
     IsVeterinario,
+    IsVetOrTutorHimself,
 )
 from apps.tutores.schemas import TutorSchema
 
@@ -33,5 +33,8 @@ class TutorViewSet(ModelViewSet):
     def get_serializer_class(self):
         if self.action == "create":
             return serializers.TutorCreateSerializer
+
+        if self.action == "list":
+            return serializers.TutorBasicSerializer
 
         return serializers.TutorSerializer
