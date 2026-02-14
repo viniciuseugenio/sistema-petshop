@@ -171,4 +171,5 @@ SPECTACULAR_SETTINGS = {
         {"name": "vacinas", "description": "Unidades de vacinas disponíveis"},
         {"name": "registros", "description": "Registros de vacinas aplicadas"},
     ],
+    "COMPONENT_SPLIT_REQUEST": True,
 }

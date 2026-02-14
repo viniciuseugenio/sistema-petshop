@@ -55,13 +55,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/LoginRequest'
+              $ref: '#/components/schemas/LoginRequestRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/LoginRequest'
+              $ref: '#/components/schemas/LoginRequestRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/LoginRequest'
+              $ref: '#/components/schemas/LoginRequestRequest'
         required: true
       security:
       - cookieAuth: []
@@ -138,13 +138,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PetCreate'
+              $ref: '#/components/schemas/PetCreateRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PetCreate'
+              $ref: '#/components/schemas/PetCreateRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PetCreate'
+              $ref: '#/components/schemas/PetCreateRequest'
         required: true
       security:
       - cookieAuth: []
@@ -213,13 +213,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PetCreate'
+              $ref: '#/components/schemas/PetCreateRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PetCreate'
+              $ref: '#/components/schemas/PetCreateRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PetCreate'
+              $ref: '#/components/schemas/PetCreateRequest'
         required: true
       security:
       - cookieAuth: []
@@ -264,13 +264,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchedPetCreate'
+              $ref: '#/components/schemas/PatchedPetCreateRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PatchedPetCreate'
+              $ref: '#/components/schemas/PatchedPetCreateRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PatchedPetCreate'
+              $ref: '#/components/schemas/PatchedPetCreateRequest'
       security:
       - cookieAuth: []
       responses:
@@ -344,7 +344,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TutorCreate'
+              $ref: '#/components/schemas/TutorCreateRequest'
             examples:
               CriandoNovoUsuário:
                 value:
@@ -366,10 +366,10 @@ paths:
                 description: Associa um usuário já existe como tutor
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/TutorCreate'
+              $ref: '#/components/schemas/TutorCreateRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/TutorCreate'
+              $ref: '#/components/schemas/TutorCreateRequest'
         required: true
       security:
       - cookieAuth: []
@@ -437,13 +437,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Tutor'
+              $ref: '#/components/schemas/TutorRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Tutor'
+              $ref: '#/components/schemas/TutorRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Tutor'
+              $ref: '#/components/schemas/TutorRequest'
         required: true
       security:
       - cookieAuth: []
@@ -488,13 +488,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchedTutor'
+              $ref: '#/components/schemas/PatchedTutorRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PatchedTutor'
+              $ref: '#/components/schemas/PatchedTutorRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PatchedTutor'
+              $ref: '#/components/schemas/PatchedTutorRequest'
       security:
       - cookieAuth: []
       responses:
@@ -583,13 +583,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/RegistroVacinaCreate'
+              $ref: '#/components/schemas/RegistroVacinaCreateRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/RegistroVacinaCreate'
+              $ref: '#/components/schemas/RegistroVacinaCreateRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/RegistroVacinaCreate'
+              $ref: '#/components/schemas/RegistroVacinaCreateRequest'
         required: true
       security:
       - cookieAuth: []
@@ -640,13 +640,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/RegistroVacinaCreate'
+              $ref: '#/components/schemas/RegistroVacinaCreateRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/RegistroVacinaCreate'
+              $ref: '#/components/schemas/RegistroVacinaCreateRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/RegistroVacinaCreate'
+              $ref: '#/components/schemas/RegistroVacinaCreateRequest'
         required: true
       security:
       - cookieAuth: []
@@ -674,13 +674,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchedRegistroVacinaCreate'
+              $ref: '#/components/schemas/PatchedRegistroVacinaCreateRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PatchedRegistroVacinaCreate'
+              $ref: '#/components/schemas/PatchedRegistroVacinaCreateRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PatchedRegistroVacinaCreate'
+              $ref: '#/components/schemas/PatchedRegistroVacinaCreateRequest'
       security:
       - cookieAuth: []
       responses:
@@ -737,13 +737,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Vacina'
+              $ref: '#/components/schemas/VacinaRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Vacina'
+              $ref: '#/components/schemas/VacinaRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Vacina'
+              $ref: '#/components/schemas/VacinaRequest'
         required: true
       security:
       - cookieAuth: []
@@ -794,13 +794,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Vacina'
+              $ref: '#/components/schemas/VacinaRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Vacina'
+              $ref: '#/components/schemas/VacinaRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Vacina'
+              $ref: '#/components/schemas/VacinaRequest'
         required: true
       security:
       - cookieAuth: []
@@ -828,13 +828,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchedVacina'
+              $ref: '#/components/schemas/PatchedVacinaRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PatchedVacina'
+              $ref: '#/components/schemas/PatchedVacinaRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PatchedVacina'
+              $ref: '#/components/schemas/PatchedVacinaRequest'
       security:
       - cookieAuth: []
       responses:
@@ -891,7 +891,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/VeterinarioCreate'
+              $ref: '#/components/schemas/VeterinarioCreateRequest'
             examples:
               CriandoNovoUsuário:
                 value:
@@ -915,10 +915,10 @@ paths:
                 description: Associa um usuário já existe como veterinário
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/VeterinarioCreate'
+              $ref: '#/components/schemas/VeterinarioCreateRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/VeterinarioCreate'
+              $ref: '#/components/schemas/VeterinarioCreateRequest'
         required: true
       security:
       - cookieAuth: []
@@ -986,13 +986,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Veterinario'
+              $ref: '#/components/schemas/VeterinarioRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Veterinario'
+              $ref: '#/components/schemas/VeterinarioRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Veterinario'
+              $ref: '#/components/schemas/VeterinarioRequest'
         required: true
       security:
       - cookieAuth: []
@@ -1037,13 +1037,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchedVeterinario'
+              $ref: '#/components/schemas/PatchedVeterinarioRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PatchedVeterinario'
+              $ref: '#/components/schemas/PatchedVeterinarioRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PatchedVeterinario'
+              $ref: '#/components/schemas/PatchedVeterinarioRequest'
       security:
       - cookieAuth: []
       responses:
@@ -1097,29 +1097,30 @@ components:
           type: string
       required:
       - detail
-    LoginRequest:
+    LoginRequestRequest:
       type: object
       properties:
         username:
           type: string
+          minLength: 1
         password:
           type: string
+          minLength: 1
       required:
       - password
       - username
-    PatchedPetCreate:
+    PatchedPetCreateRequest:
       type: object
       properties:
-        id:
-          type: integer
-          readOnly: true
         nome:
           type: string
+          minLength: 1
           maxLength: 100
         tutor:
           type: integer
         especie:
           type: string
+          minLength: 1
           maxLength: 50
         raca:
           type: string
@@ -1129,12 +1130,9 @@ components:
           type: string
           format: date
           nullable: true
-    PatchedRegistroVacinaCreate:
+    PatchedRegistroVacinaCreateRequest:
       type: object
       properties:
-        id:
-          type: integer
-          readOnly: true
         veterinario:
           type: integer
         vacina:
@@ -1146,34 +1144,41 @@ components:
         data:
           type: string
           format: date
-    PatchedTutor:
+    PatchedTutorRequest:
       type: object
       properties:
         celular:
           type: string
-          maxLength: 20
-    PatchedVacina:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        nome:
-          type: string
-          maxLength: 120
-    PatchedVeterinario:
-      type: object
-      properties:
-        celular:
-          type: string
-          maxLength: 20
-        crmv:
-          type: string
-          nullable: true
+          minLength: 1
           maxLength: 20
         cpf:
           type: string
           nullable: true
+          minLength: 1
+          maxLength: 11
+    PatchedVacinaRequest:
+      type: object
+      properties:
+        nome:
+          type: string
+          minLength: 1
+          maxLength: 120
+    PatchedVeterinarioRequest:
+      type: object
+      properties:
+        celular:
+          type: string
+          minLength: 1
+          maxLength: 20
+        crmv:
+          type: string
+          nullable: true
+          minLength: 1
+          maxLength: 20
+        cpf:
+          type: string
+          nullable: true
+          minLength: 1
           maxLength: 11
     PetBasic:
       type: object
@@ -1187,19 +1192,18 @@ components:
       required:
       - id
       - nome
-    PetCreate:
+    PetCreateRequest:
       type: object
       properties:
-        id:
-          type: integer
-          readOnly: true
         nome:
           type: string
+          minLength: 1
           maxLength: 100
         tutor:
           type: integer
         especie:
           type: string
+          minLength: 1
           maxLength: 50
         raca:
           type: string
@@ -1211,7 +1215,6 @@ components:
           nullable: true
       required:
       - especie
-      - id
       - nome
       - tutor
     PetDetails:
@@ -1318,6 +1321,24 @@ components:
       - pet
       - vacina
       - veterinario
+    RegistroVacinaCreateRequest:
+      type: object
+      properties:
+        veterinario:
+          type: integer
+        vacina:
+          type: integer
+        pet:
+          type: integer
+        observacoes:
+          type: string
+        data:
+          type: string
+          format: date
+      required:
+      - pet
+      - vacina
+      - veterinario
     RegistroVacinaDetails:
       type: object
       properties:
@@ -1377,11 +1398,24 @@ components:
     Tutor:
       type: object
       properties:
+        id:
+          type: integer
+          readOnly: true
+        user:
+          allOf:
+          - $ref: '#/components/schemas/User'
+          readOnly: true
         celular:
           type: string
           maxLength: 20
+        cpf:
+          type: string
+          nullable: true
+          maxLength: 11
       required:
       - celular
+      - id
+      - user
     TutorBasic:
       type: object
       properties:
@@ -1393,39 +1427,93 @@ components:
         celular:
           type: string
           maxLength: 20
+        cpf:
+          type: string
+          nullable: true
+          maxLength: 11
       required:
       - celular
       - id
       - user
-    TutorCreate:
+    TutorCreateRequest:
       type: object
       properties:
         username:
           type: string
+          minLength: 1
           maxLength: 150
         first_name:
           type: string
+          minLength: 1
           maxLength: 150
         last_name:
           type: string
+          minLength: 1
           maxLength: 150
         email:
           type: string
           format: email
+          minLength: 1
         password:
           type: string
+          minLength: 1
           maxLength: 128
         user_id:
           type: integer
         cpf:
           type: string
+          minLength: 1
           maxLength: 11
         celular:
           type: string
+          minLength: 1
           maxLength: 20
       required:
       - celular
       - cpf
+    TutorRequest:
+      type: object
+      properties:
+        celular:
+          type: string
+          minLength: 1
+          maxLength: 20
+        cpf:
+          type: string
+          nullable: true
+          minLength: 1
+          maxLength: 11
+      required:
+      - celular
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          title: Usuário
+          description: Obrigatório. 150 caracteres ou menos. Letras, números e @/./+/-/_
+            apenas.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        first_name:
+          type: string
+          title: Primeiro nome
+          maxLength: 150
+        last_name:
+          type: string
+          title: Último nome
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          title: Endereço de email
+          maxLength: 254
+      required:
+      - id
+      - username
     UserBasic:
       type: object
       properties:
@@ -1441,6 +1529,32 @@ components:
           maxLength: 150
       required:
       - id
+      - username
+    UserRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          minLength: 1
+          title: Usuário
+          description: Obrigatório. 150 caracteres ou menos. Letras, números e @/./+/-/_
+            apenas.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        first_name:
+          type: string
+          title: Primeiro nome
+          maxLength: 150
+        last_name:
+          type: string
+          title: Último nome
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          title: Endereço de email
+          maxLength: 254
+      required:
       - username
     UserWGroups:
       type: object
@@ -1489,9 +1603,25 @@ components:
       required:
       - id
       - nome
+    VacinaRequest:
+      type: object
+      properties:
+        nome:
+          type: string
+          minLength: 1
+          maxLength: 120
+      required:
+      - nome
     Veterinario:
       type: object
       properties:
+        id:
+          type: integer
+          readOnly: true
+        user:
+          allOf:
+          - $ref: '#/components/schemas/User'
+          readOnly: true
         celular:
           type: string
           maxLength: 20
@@ -1505,6 +1635,8 @@ components:
           maxLength: 11
       required:
       - celular
+      - id
+      - user
     VeterinarioBasic:
       type: object
       properties:
@@ -1530,39 +1662,66 @@ components:
       - celular
       - id
       - user
-    VeterinarioCreate:
+    VeterinarioCreateRequest:
       type: object
       properties:
         username:
           type: string
+          minLength: 1
           maxLength: 150
         first_name:
           type: string
+          minLength: 1
           maxLength: 150
         last_name:
           type: string
+          minLength: 1
           maxLength: 150
         email:
           type: string
           format: email
+          minLength: 1
         password:
           type: string
+          minLength: 1
           maxLength: 128
         user_id:
           type: integer
         cpf:
           type: string
+          minLength: 1
           maxLength: 11
         celular:
           type: string
+          minLength: 1
           maxLength: 20
         crmv:
           type: string
+          minLength: 1
           maxLength: 20
       required:
       - celular
       - cpf
       - crmv
+    VeterinarioRequest:
+      type: object
+      properties:
+        celular:
+          type: string
+          minLength: 1
+          maxLength: 20
+        crmv:
+          type: string
+          nullable: true
+          minLength: 1
+          maxLength: 20
+        cpf:
+          type: string
+          nullable: true
+          minLength: 1
+          maxLength: 11
+      required:
+      - celular
   securitySchemes:
     cookieAuth:
       type: apiKey

@@ -1,4 +1,3 @@
-from drf_spectacular.utils import extend_schema_serializer
 from rest_framework import serializers
 
 from apps.accounts.serializers import UserBasicSerializer, UserSerializer
@@ -10,7 +9,6 @@ from . import models
 LIST_FIELDS = ["id", "user", "celular", "crmv", "cpf"]
 
 
-@extend_schema_serializer(exclude_fields=("id", "user"))
 class VeterinarioSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
 
