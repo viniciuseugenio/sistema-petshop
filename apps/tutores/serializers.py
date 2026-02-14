@@ -10,7 +10,7 @@ class TutorSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Tutor
-        fields = ["id", "user", "celular"]
+        fields = ["id", "user", "celular", "cpf"]
         read_only_fields = ["user"]
 
 
@@ -19,7 +19,7 @@ class TutorBasicSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Tutor
-        fields = ["id", "user", "celular"]
+        fields = ["id", "user", "celular", "cpf"]
 
 
 class TutorCreateSerializer(PerfilCreateSerializer):
