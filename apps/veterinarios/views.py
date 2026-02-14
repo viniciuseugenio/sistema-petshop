@@ -1,5 +1,8 @@
+from django.db.models import ProtectedError
 from drf_spectacular.utils import extend_schema, extend_schema_view
+from rest_framework import status
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from apps.permissions import IsVeterinario, IsVetHimself
@@ -34,3 +37,14 @@ class VeterinarioViewSet(ModelViewSet):
             return serializers.VeterinarioCreateSerializer
 
         return serializers.VeterinarioSerializer
+
+    def destroy(self, request, *args, **kwargs):
+        try:
+            return super().destroy(request, *args, **kwargs)
+        except ProtectedError:
+            return Response(
+                {
+                    "detail": "Não é possível deletar este objeto porque existem associações protegidas."
+                },
+                status=status.HTTP_409_CONFLICT,
+            )
